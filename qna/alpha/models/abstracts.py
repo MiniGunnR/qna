@@ -31,14 +31,49 @@ class CommentCount(models.Model):
 
 
 class QuestionChild(models.Model):
-    parent = models.ForeignKey("Question")
+    parent = models.ForeignKey('Question')
 
     class Meta:
         abstract = True
 
 
 class AnswerChild(models.Model):
-    parent = models.ForeignKey("Answer")
+    parent = models.ForeignKey('Answer')
 
     class Meta:
+        abstract = True
+
+
+class QuestionPoint(TimeStamped):
+    question = models.ForeignKey('Question')
+    user = models.ForeignKey(User)
+
+    class meta:
+        unique_together = ('question', 'user')
+        abstract = True
+
+
+class AnswerPoint(TimeStamped):
+    answer = models.ForeignKey('Answer')
+    user = models.ForeignKey(User)
+
+    class meta:
+        unique_together = ('answer', 'user')
+        abstract = True
+
+
+class QuestionCommentPoint(TimeStamped):
+    comment = models.ForeignKey('QuestionComment')
+    user = models.ForeignKey(User)
+
+    class meta:
+        unique_together = ('comment', 'user')
+        abstract = True
+
+class AnswerCommentPoint(TimeStamped):
+    comment = models.ForeignKey('AnswerComment')
+    user = models.ForeignKey(User)
+
+    class meta:
+        unique_together = ('comment', 'user')
         abstract = True
