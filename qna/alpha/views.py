@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from itertools import chain
+from operator import attrgetter
 
 from .models.models import Question, QuestionFlag, QuestionHeart, QuestionCommentHeart, QuestionCommentFlag,\
     Answer, AnswerFlag, AnswerHeart, AnswerCommentHeart, AnswerCommentFlag
@@ -75,3 +77,11 @@ def AnswerCommentFlagView(request, pk):
         return JsonResponse({"response": "unflagged"})
     else:
         return JsonResponse({"response": "flagged"})
+
+# # #
+
+def Stream(request):
+    questions = Question.objects.all()
+    answers = Answer.objects.all()
+    queryset = sorted(chain(questions, answers), key=attrgetter('hearts'), reverse=True)
+    return render(request, "alpha/stream.html", {'queryset': queryset})
