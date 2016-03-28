@@ -1,3 +1,21 @@
 {% for item in queryset %}
-    {{ item }} <br/>
+    {% if item.parent %}
+        <small>{{ item.parent.title }}</small> <br/>
+        {{ item }} <br/>
+        <small>
+            <a href="#">heart</a>
+            <a href="#">flag</a>
+            <a href="#">comment</a>
+        </small>
+        <hr/>
+    {% else %}
+        {{ item }} <br/>
+        <small>
+            <a href="#">heart</a>
+            <a href="#">flag</a>
+            <a href="#">comment</a>
+            <a href="#">answer</a>
+        </small>
+        <hr/>
+    {% endif %}
     {% endfor %}

@@ -83,5 +83,5 @@ def AnswerCommentFlagView(request, pk):
 def Stream(request):
     questions = Question.objects.all()
     answers = Answer.objects.all()
-    queryset = sorted(chain(questions, answers), key=attrgetter('hearts'), reverse=True)
+    queryset = sorted(chain(questions, answers), key=attrgetter('created'), reverse=True)
     return render(request, "alpha/stream.html", {'queryset': queryset})
