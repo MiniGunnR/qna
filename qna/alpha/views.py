@@ -83,5 +83,23 @@ def AnswerCommentFlagView(request, pk):
 def Stream(request):
     questions = Question.objects.all()
     answers = Answer.objects.all()
-    queryset = sorted(chain(questions, answers), key=attrgetter('created'), reverse=True)
+    combined = sorted(chain(questions, answers), key=attrgetter('created'), reverse=True)
+    queryset = []
+    for item in combined:
+        if hasattr(item, 'parent'):
+            try:
+                qs = AnswerHeart.objects.get(answer=item, user=request.user)
+                if qs:
+                    point = True
+            except AnswerHeart.DoesNotExist:
+                point = False
+            queryset.append((item, point))
+        else:
+            try:
+                qs = QuestionHeart.objects.get(question=item, user=request.user)
+                if qs:
+                    point = True
+            except QuestionHeart.DoesNotExist:
+                point = False
+            queryset.append((item, point))
     return render(request, "alpha/stream.html", {'queryset': queryset})

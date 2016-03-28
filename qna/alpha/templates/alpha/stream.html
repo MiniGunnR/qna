@@ -1,9 +1,13 @@
-{% for item in queryset %}
+{% for item, hearted in queryset %}
     {% if item.parent %}
         <small>{{ item.parent.title }}</small> <br/>
         {{ item }} <br/>
         <small>
-            <a href="#">heart</a>
+            {% if hearted %}
+                <a href="#">unheart</a>
+                {% else %}
+                <a href="#">heart</a>
+                {% endif %}
             <a href="#">flag</a>
             <a href="#">comment</a>
         </small>
@@ -11,7 +15,11 @@
     {% else %}
         {{ item }} <br/>
         <small>
-            <a href="#">heart</a>
+            {% if hearted %}
+                <a href="#">unheart</a>
+                {% else %}
+                <a href="#">heart</a>
+                {% endif %}
             <a href="#">flag</a>
             <a href="#">comment</a>
             <a href="#">answer</a>
@@ -19,3 +27,4 @@
         <hr/>
     {% endif %}
     {% endfor %}
+
