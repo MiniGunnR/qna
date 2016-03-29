@@ -1,30 +1,50 @@
-{% for item, hearted in queryset %}
-    {% if item.parent %}
-        <small>{{ item.parent.title }}</small> <br/>
-        {{ item }} <br/>
-        <small>
-            {% if hearted %}
-                <a href="#">unheart</a>
-                {% else %}
-                <a href="#">heart</a>
-                {% endif %}
-            <a href="#">flag</a>
-            <a href="#">comment</a>
-        </small>
-        <hr/>
-    {% else %}
-        {{ item }} <br/>
-        <small>
-            {% if hearted %}
-                <a href="#">unheart</a>
-                {% else %}
-                <a href="#">heart</a>
-                {% endif %}
-            <a href="#">flag</a>
-            <a href="#">comment</a>
-            <a href="#">answer</a>
-        </small>
-        <hr/>
-    {% endif %}
-    {% endfor %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Some Site</title>
+    </head>
+
+    <body>
+        {% for item, hearted in queryset %}
+            {% if item.parent %}
+                <small>{{ item.parent.title }}</small> <br/>
+                {{ item }} <br/>
+                <small>
+                    {% if hearted %}
+                        <a href="{% url 'answer-heart' item.pk %}">unheart</a>
+                        {% else %}
+                        <a href="{% url 'answer-heart' item.pk %}">heart</a>
+                        {% endif %}
+                    <a href="#">flag</a>
+                    <a href="#">comment</a>
+                </small>
+                <hr/>
+            {% else %}
+                {{ item }} <br/>
+                <small>
+                    {% if hearted %}
+                        <a href="{% url 'question-heart' item.pk %}">unheart</a>
+                        {% else %}
+                        <a href="{% url 'question-heart' item.pk %}">heart</a>
+                        {% endif %}
+                    <a href="#">flag</a>
+                    <a href="#">comment</a>
+                    <a href="#">answer</a>
+                </small>
+                <hr/>
+            {% endif %}
+        {% endfor %}
+
+
+
+    <script src="{% static 'alpha/js/jquery.min.js' %}"></script>
+    <script src="{% static 'alpha/js/alpha.js' %}"></script>
+
+    </body>
+</html>
 
