@@ -88,18 +88,30 @@ def Stream(request):
     for item in combined:
         if hasattr(item, 'parent'):
             try:
-                qs = AnswerHeart.objects.get(answer=item, user=request.user)
-                if qs:
-                    point = True
+                qs_heart = AnswerHeart.objects.get(answer=item, user=request.user)
+                if qs_heart:
+                    hearted = True
             except AnswerHeart.DoesNotExist:
-                point = False
-            queryset.append((item, point))
+                hearted = False
+            try:
+                qs_flag = AnswerFlag.objects.get(answer=item, user=request.user)
+                if qs_flag:
+                    flagged = True
+            except AnswerFlag.DoesNotExist:
+                flagged = False
+            queryset.append((item, hearted, flagged))
         else:
             try:
-                qs = QuestionHeart.objects.get(question=item, user=request.user)
-                if qs:
-                    point = True
+                qs_heart = QuestionHeart.objects.get(question=item, user=request.user)
+                if qs_heart:
+                    hearted = True
             except QuestionHeart.DoesNotExist:
-                point = False
-            queryset.append((item, point))
+                hearted = False
+            try:
+                qs_flag = QuestionFlag.objects.get(question=item, user=request.user)
+                if qs_flag:
+                    flagged = True
+            except QuestionFlag.DoesNotExist:
+                flagged = False
+            queryset.append((item, hearted, flagged))
     return render(request, "alpha/stream.html", {'queryset': queryset})

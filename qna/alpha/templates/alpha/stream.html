@@ -6,21 +6,28 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--<link rel="stylesheet" type="text/css" href="{% static 'alpha/css/bootstrap.min.css' %}">-->
+        <link rel="stylesheet" type="text/css" href="{% static 'alpha/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'alpha/css/alpha.css' %}">
         <title>Some Site</title>
     </head>
 
     <body>
-        {% for item, hearted in queryset %}
+        {% for item, hearted, flagged in queryset %}
             {% if item.parent %}
                 <small>{{ item.parent.title }}</small> <br/>
                 {{ item }} <br/>
                 <small>
                     {% if hearted %}
-                        <a href="{% url 'answer-heart' item.pk %}">unheart</a>
+                        <a href="{% url 'answer-heart' item.pk %}" class="heart"><i class="fa fa-heart-o red"></i></a>
                         {% else %}
-                        <a href="{% url 'answer-heart' item.pk %}">heart</a>
+                        <a href="{% url 'answer-heart' item.pk %}" class="heart"><i class="fa fa-heart-o gray"></i></a>
                         {% endif %}
-                    <a href="#">flag</a>
+                    {% if flagged %}
+                        <a href="{% url 'answer-flag' item.pk %}" class="flag"><i class="fa fa-flag-o red"></i></a>
+                        {% else %}
+                        <a href="{% url 'answer-flag' item.pk %}" class="flag"><i class="fa fa-flag-o gray"></i></a>
+                        {% endif %}
                     <a href="#">comment</a>
                 </small>
                 <hr/>
@@ -28,11 +35,15 @@
                 {{ item }} <br/>
                 <small>
                     {% if hearted %}
-                        <a href="{% url 'question-heart' item.pk %}">unheart</a>
+                        <a href="{% url 'question-heart' item.pk %}" class="heart">unheart</a>
                         {% else %}
-                        <a href="{% url 'question-heart' item.pk %}">heart</a>
+                        <a href="{% url 'question-heart' item.pk %}" class="heart">heart</a>
                         {% endif %}
-                    <a href="#">flag</a>
+                    {% if flagged %}
+                        <a href="{% url 'question-flag' item.pk %}" class="flag">unflag</a>
+                        {% else %}
+                        <a href="{% url 'question-flag' item.pk %}" class="flag">flag</a>
+                        {% endif %}
                     <a href="#">comment</a>
                     <a href="#">answer</a>
                 </small>
@@ -43,6 +54,7 @@
 
 
     <script src="{% static 'alpha/js/jquery.min.js' %}"></script>
+    <!--<script src="{% static 'alpha/js/bootstrap.min.js' %}"></script>-->
     <script src="{% static 'alpha/js/alpha.js' %}"></script>
 
     </body>
