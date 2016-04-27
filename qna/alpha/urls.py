@@ -16,4 +16,6 @@ urlpatterns = [
     url(r'^flag/answer/comment/(?P<pk>\d+)/', views.AnswerCommentFlagView, name='answer-comment-flag'),
 
     url(r'^stream/$', views.Stream, name='stream'),
+    url(r'^question/(?P<pk>\d+)/$', views.QuestionDetail.as_view(), name='question-detail'),
+    url(r'^answer/(?P<pk>\d+)/$', views.AnswerDetail.as_view(), name='answer-detail'),
 ]

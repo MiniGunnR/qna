@@ -16,7 +16,7 @@
         {% for item, hearted, flagged in queryset %}
             {% if item.parent %}
                 <small>{{ item.parent.title }}</small> <br/>
-                {{ item }} <br/>
+                <a href="{% url 'answer-detail' item.pk %}" target="_blank">{{ item }}</a> <br/>
                 <small>
                     {% if hearted %}
                         <a href="{% url 'answer-heart' item.pk %}" class="heart"><i class="fa fa-heart-o red"></i></a>
@@ -32,7 +32,7 @@
                 </small>
                 <hr/>
             {% else %}
-                {{ item }} <br/>
+                <a href="{% url 'question-detail' item.pk %}" target="_blank">{{ item }}</a> <br/>
                 <small>
                     {% if hearted %}
                         <a href="{% url 'question-heart' item.pk %}" class="heart">unheart</a>
