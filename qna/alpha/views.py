@@ -2,8 +2,14 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from itertools import chain
 from operator import attrgetter
+from django.core.urlresolvers import reverse
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponse, HttpResponseRedirect
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView
 
 from .models.models import Question, QuestionFlag, QuestionHeart, QuestionCommentHeart, QuestionCommentFlag,\
     Answer, AnswerFlag, AnswerHeart, AnswerCommentHeart, AnswerCommentFlag
@@ -90,6 +96,7 @@ def AnswerCommentFlagView(request, pk):
 
 # # #
 
+@login_required()
 def Stream(request):
     questions = Question.objects.all()
     answers = Answer.objects.all()
@@ -136,3 +143,38 @@ class AnswerDetail(DetailView):
     model = Answer
     template_name = 'alpha/answer-detail.html'
 
+
+class QuestionCreate(CreateView):
+    model = Question
+    fields = ['title', 'body', 'category', ]
+    template_name = 'alpha/question-create.html'
+
+    def get_success_url(self):
+        return reverse('question-detail', args=(self.object.id,))
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super(QuestionCreate, self).form_valid(form)
+
+
+def LoginView(request):
+    next = request.GET.get('next', '/stream/')
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect(next)
+            else:
+                return HttpResponse("Inactive user.")
+        else:
+            return HttpResponseRedirect(settings.LOGIN_URL)
+
+    return render(request, "alpha/login.html", {'redirect_to': next})
+
+def LogoutView(request):
+    logout(request)
+    return HttpResponseRedirect(settings.LOGIN_URL)

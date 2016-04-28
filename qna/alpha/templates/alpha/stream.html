@@ -1,62 +1,74 @@
+{% extends "base.html" %}
 {% load static %}
+{% load humanize %}
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!--<link rel="stylesheet" type="text/css" href="{% static 'alpha/css/bootstrap.min.css' %}">-->
-        <link rel="stylesheet" type="text/css" href="{% static 'alpha/css/font-awesome.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'alpha/css/alpha.css' %}">
-        <title>Some Site</title>
-    </head>
+{% block body %}
 
-    <body>
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+        <ul id="stream">
         {% for item, hearted, flagged in queryset %}
-            {% if item.parent %}
+            <li>
+            <div>
+            {% if item.parent %} {# If this item is an answer #}
                 <small>{{ item.parent.title }}</small> <br/>
-                <a href="{% url 'answer-detail' item.pk %}" target="_blank">{{ item }}</a> <br/>
-                <small>
-                    {% if hearted %}
-                        <a href="{% url 'answer-heart' item.pk %}" class="heart"><i class="fa fa-heart-o red"></i></a>
-                        {% else %}
-                        <a href="{% url 'answer-heart' item.pk %}" class="heart"><i class="fa fa-heart-o gray"></i></a>
-                        {% endif %}
-                    {% if flagged %}
-                        <a href="{% url 'answer-flag' item.pk %}" class="flag"><i class="fa fa-flag-o red"></i></a>
-                        {% else %}
-                        <a href="{% url 'answer-flag' item.pk %}" class="flag"><i class="fa fa-flag-o gray"></i></a>
-                        {% endif %}
-                    <a href="#">comment</a>
-                </small>
-                <hr/>
-            {% else %}
-                <a href="{% url 'question-detail' item.pk %}" target="_blank">{{ item }}</a> <br/>
-                <small>
-                    {% if hearted %}
-                        <a href="{% url 'question-heart' item.pk %}" class="heart">unheart</a>
-                        {% else %}
-                        <a href="{% url 'question-heart' item.pk %}" class="heart">heart</a>
-                        {% endif %}
-                    {% if flagged %}
-                        <a href="{% url 'question-flag' item.pk %}" class="flag">unflag</a>
-                        {% else %}
-                        <a href="{% url 'question-flag' item.pk %}" class="flag">flag</a>
-                        {% endif %}
-                    <a href="#">comment</a>
-                    <a href="#">answer</a>
-                </small>
-                <hr/>
-            {% endif %}
+                <a href="{% url 'answer-detail' item.pk %}" target="_blank" class="post">{{ item }}</a>
+
+                <hr style="margin-bottom: 10px;"/>
+
+                    <div>
+                        <ul id="stream-view-option">
+                            <li><a href="{% url 'answer-detail' item.pk %}">{{ item.created|naturalday|capfirst }}</a> &bull;</li>
+                            <li><a href="#">{{ item.comments }} comment{{ item.ques.comments|pluralize }}</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <ul id="stream-post-option" class="text-right">
+                            <li><a href="#"><i class="fa fa-heart-o"></i></a> &nbsp;</li>
+                            <li><a href="#"><i class="fa fa-comment-o"></i></a> &nbsp;</li>
+                        </ul>
+                    </div>
+            {% else %} {# If this item is a question #}
+                <a href="{% url 'question-detail' item.pk %}" target="_blank" class="post">{{ item }}</a>
+
+                <hr style="margin-bottom: 10px;"/>
+
+                    <div>
+                        <ul id="stream-view-option">
+                            <li><a href="{% url 'question-detail' item.pk %}">{{ item.created|naturalday|capfirst }}</a> &bull;</li>
+                            <li><a href="#">{{ item.comments }} comment{{ item.ans.comments|pluralize }}</a> &bull;</li>
+                            <li><a href="#">{{ item.answers }} answer{{ item.answers|pluralize }}</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <ul id="stream-post-option" class="text-right">
+                            <li><a href="#"><i class="fa fa-heart-o"></i></a> &nbsp;</li>
+                            <li><a href="#"><i class="fa fa-comment-o"></i></a> &nbsp;</li>
+                            <li><a href="#"><i class="fa fa-font"></i></a> &nbsp;</li>
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+            </li>
+        {% empty %}
+            <li>No items yet.</li>
         {% endfor %}
+        </ul>
+    </div>
+    <div class="col-sm-3"></div>
 
+{% endblock %}
 
+{% block script %}
+    <script>
 
-    <script src="{% static 'alpha/js/jquery.min.js' %}"></script>
-    <!--<script src="{% static 'alpha/js/bootstrap.min.js' %}"></script>-->
-    <script src="{% static 'alpha/js/alpha.js' %}"></script>
+    $(document).ready(function() {
+        $("#stream-link").css("border-bottom", "solid");
+        $("#stream-link").css("border-color", "#FF7F50");
+        $("#stream-link").css("color", "#9D9D9D");
+    });
 
-    </body>
-</html>
-
+    </script>
+{% endblock %}
