@@ -178,3 +178,4 @@ def LoginView(request):
 def LogoutView(request):
     logout(request)
     return HttpResponseRedirect(settings.LOGIN_URL)
+

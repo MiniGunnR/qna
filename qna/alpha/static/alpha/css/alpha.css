@@ -3,7 +3,7 @@
 }
 
 .gray {
-    color: gray;
+    color: #ADADAD;
 }
 
 html, body {
@@ -70,33 +70,37 @@ html, body {
     margin: 10px;
 }
 
-#stream-post-option,
-#stream-view-option {
+.stream-post-option,
+.stream-view-option {
     list-style-type: none;
     margin: 0px;
     padding: 0px;
     color: #ADADAD;
 }
 
-#stream-view-option {
+.stream-view-option {
     float: left;
 }
 
-#stream-view-option > li {
+.stream-view-option > li {
     display: inline-block;
     font-size: 0.9em;
 }
 
-#stream-view-option > li > a,
-#stream-post-option > li > a {
+.stream-view-option > li > a,
+.stream-post-option > li > a {
     color: #ADADAD;
 }
 
-#stream-post-option > li {
+.stream-post-option > li {
     display: inline-block;
     font-size: 1.1em;
 }
 
-#stream-post-option > li > a:hover {
+.stream-post-option > li > a:hover {
     color: coral;
+}
+
+#login-btn {
+    width: 50%;
 }

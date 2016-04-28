@@ -17,15 +17,15 @@
                 <hr style="margin-bottom: 10px;"/>
 
                     <div>
-                        <ul id="stream-view-option">
-                            <li><a href="{% url 'answer-detail' item.pk %}">{{ item.created|naturalday|capfirst }}</a> &bull;</li>
+                        <ul class="stream-view-option">
+                            <li><a href="{% url 'answer-detail' item.pk %}" target="_blank">{{ item.created|naturalday|capfirst }}</a> &bull;</li>
                             <li><a href="#">{{ item.comments }} comment{{ item.ques.comments|pluralize }}</a></li>
                         </ul>
                     </div>
 
                     <div>
-                        <ul id="stream-post-option" class="text-right">
-                            <li><a href="#"><i class="fa fa-heart-o"></i></a> &nbsp;</li>
+                        <ul class="text-right stream-post-option">
+                            <li><a href="{% url 'answer-heart' item.pk %}" class="heart"><i class="fa fa-heart-o"></i></a> &nbsp;</li>
                             <li><a href="#"><i class="fa fa-comment-o"></i></a> &nbsp;</li>
                         </ul>
                     </div>
@@ -35,16 +35,16 @@
                 <hr style="margin-bottom: 10px;"/>
 
                     <div>
-                        <ul id="stream-view-option">
-                            <li><a href="{% url 'question-detail' item.pk %}">{{ item.created|naturalday|capfirst }}</a> &bull;</li>
+                        <ul class="stream-view-option">
+                            <li><a href="{% url 'question-detail' item.pk %}" target="_blank">{{ item.created|naturalday|capfirst }}</a> &bull;</li>
                             <li><a href="#">{{ item.comments }} comment{{ item.ans.comments|pluralize }}</a> &bull;</li>
                             <li><a href="#">{{ item.answers }} answer{{ item.answers|pluralize }}</a></li>
                         </ul>
                     </div>
 
                     <div>
-                        <ul id="stream-post-option" class="text-right">
-                            <li><a href="#"><i class="fa fa-heart-o"></i></a> &nbsp;</li>
+                        <ul class="text-right stream-post-option">
+                            <li><a href="{% url 'question-heart' item.pk %}" class="heart"><i class="fa fa-heart-o"></i></a> &nbsp;</li>
                             <li><a href="#"><i class="fa fa-comment-o"></i></a> &nbsp;</li>
                             <li><a href="#"><i class="fa fa-font"></i></a> &nbsp;</li>
                         </ul>

@@ -7,13 +7,13 @@
         <form action="" method="post">{% csrf_token %}
 
             <div class="text-center">
-                <input id="id_title" maxlength="200" name="title" type="text" class="form-control" />
+                <input id="id_title" maxlength="200" name="title" type="text" class="form-control" placeholder="Ask a question. Keep it short and simple." autofocus />
             </div>
 
             <br/>
 
             <div class="text-center">
-                <textarea cols="40" id="id_body" name="body" rows="10" class="form-control"></textarea>
+                <textarea cols="40" id="id_body" name="body" rows="10" class="form-control" placeholder="Add a description to the question. Be specific."></textarea>
             </div>
 
             <br/>
