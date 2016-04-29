@@ -19,7 +19,7 @@
                     <div>
                         <ul class="stream-view-option">
                             <li><a href="{% url 'answer-detail' item.pk %}" target="_blank">{{ item.created|naturalday|capfirst }}</a> &bull;</li>
-                            <li><a href="#">{{ item.comments }} comment{{ item.ques.comments|pluralize }}</a></li>
+                            <li><a href="#">{{ item.comments }} comment{{ item.comments|pluralize }}</a></li>
                         </ul>
                     </div>
 
@@ -37,7 +37,7 @@
                     <div>
                         <ul class="stream-view-option">
                             <li><a href="{% url 'question-detail' item.pk %}" target="_blank">{{ item.created|naturalday|capfirst }}</a> &bull;</li>
-                            <li><a href="#">{{ item.comments }} comment{{ item.ans.comments|pluralize }}</a> &bull;</li>
+                            <li><a href="#">{{ item.comments }} comment{{ item.comments|pluralize }}</a> &bull;</li>
                             <li><a href="#">{{ item.answers }} answer{{ item.answers|pluralize }}</a></li>
                         </ul>
                     </div>
