@@ -38,4 +38,17 @@ $(function() {
         });
     });
 
+    //$(document).on('click', '.ques-comments-show', function(e) {
+    //    e.preventDefault();
+    //
+    //    var $this = $(this);
+    //    var $href = $this.attr('href');
+    //
+    //    $.get($href, function(data, status) {
+    //        if (status == 'success') {
+    //
+    //        }
+    //    });
+    //});
+
 });

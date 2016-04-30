@@ -104,3 +104,12 @@ html, body {
 #login-btn {
     width: 50%;
 }
+
+.comments-section {
+    background-color: #FAFAFA;
+    margin-top: -10px;
+    margin-left: 15px;
+    margin-right: 15px;
+    padding: 15px;
+    font-size: 0.85em;
+}

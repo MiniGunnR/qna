@@ -23,4 +23,6 @@ urlpatterns = [
     url(r'^answer/(?P<pk>\d+)/$', views.AnswerDetail.as_view(), name='answer-detail'),
 
     url(r'^ask/$', views.QuestionCreate.as_view(), name='question-create'),
+
+    # url(r'^show/ques/(?P<pk>\d+)/comments/$', views.ShowQuesComments, name='show-ques-comments'),
 ]

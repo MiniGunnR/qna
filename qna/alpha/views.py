@@ -7,12 +7,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 
 from .models.models import Question, QuestionFlag, QuestionHeart, QuestionCommentHeart, QuestionCommentFlag,\
-    Answer, AnswerFlag, AnswerHeart, AnswerCommentHeart, AnswerCommentFlag
+    Answer, AnswerFlag, AnswerHeart, AnswerCommentHeart, AnswerCommentFlag, QuestionComment
 
 
 def QuestionHeartView(request, pk):
@@ -131,7 +132,8 @@ def Stream(request):
             except QuestionFlag.DoesNotExist:
                 flagged = False
             queryset.append((item, hearted, flagged))
-    return render(request, "alpha/stream.html", {'queryset': queryset})
+    comments = QuestionComment.objects.all()
+    return render(request, "alpha/stream.html", {'queryset': queryset, 'comments': comments})
 
 
 class QuestionDetail(DetailView):
@@ -156,6 +158,10 @@ class QuestionCreate(CreateView):
         form.instance.author = self.request.user
         return super(QuestionCreate, self).form_valid(form)
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(self.__class__, self).dispatch(request, *args, **kwargs)
+
 
 def LoginView(request):
     next = request.GET.get('next', '/stream/')
@@ -175,7 +181,7 @@ def LoginView(request):
 
     return render(request, "alpha/login.html", {'redirect_to': next})
 
+
 def LogoutView(request):
     logout(request)
     return HttpResponseRedirect(settings.LOGIN_URL)
-
