@@ -12,7 +12,7 @@
             <li>
             <div>
             {% if item.parent %} {# If this item is an answer #}
-                <small>{{ item.parent.title }}</small> <br/>
+                <small class="gray">{{ item.parent.title }}</small> <br/>
                 <a href="{% url 'answer-detail' item.pk %}" target="_blank" class="post">{{ item }}</a>
 
                 <hr style="margin-bottom: 10px;"/>
@@ -20,7 +20,7 @@
                     <div>
                         <ul class="stream-view-option">
                             <li><a href="{% url 'answer-detail' item.pk %}" target="_blank">{{ item.created|naturalday|capfirst }}</a> &bull;</li>
-                            <li><a href="#" class="ans-comments-show">{{ item.comments }} comment{{ item.comments|pluralize }}</a></li>
+                            <li><a href="#" class="ans-comments-show" data-item-id="{{ item.id }}">{{ item.comments }} comment{{ item.comments|pluralize }}</a></li>
                         </ul>
                     </div>
 
@@ -38,7 +38,7 @@
                     <div>
                         <ul class="stream-view-option">
                             <li><a href="{% url 'question-detail' item.pk %}" target="_blank">{{ item.created|naturalday|capfirst }}</a> &bull;</li>
-                            <li><a href="#" class="ques-comments-show">{{ item.comments }} comment{{ item.comments|pluralize }}</a> &bull;</li>
+                            <li><a href="#" class="ques-comments-show" data-item-id="{{ item.id }}">{{ item.comments }} comment{{ item.comments|pluralize }}</a> &bull;</li>
                             <li><a href="#">{{ item.answers }} answer{{ item.answers|pluralize }}</a></li>
                         </ul>
                     </div>

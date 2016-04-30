@@ -113,3 +113,13 @@ html, body {
     padding: 15px;
     font-size: 0.85em;
 }
+
+@media (max-width: 400px) {
+    .stream-view-option {
+        font-size: 0.8em;
+    }
+
+    .stream-post-option {
+        font-size: 0.8em;
+    }
+}

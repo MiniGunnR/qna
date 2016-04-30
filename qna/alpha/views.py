@@ -13,7 +13,11 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 
 from .models.models import Question, QuestionFlag, QuestionHeart, QuestionCommentHeart, QuestionCommentFlag,\
-    Answer, AnswerFlag, AnswerHeart, AnswerCommentHeart, AnswerCommentFlag, QuestionComment
+    Answer, AnswerFlag, AnswerHeart, AnswerCommentHeart, AnswerCommentFlag, QuestionComment, AnswerComment
+
+from .serializers import QuestionCommentSerializer, AnswerCommentSerializer
+
+from rest_framework import generics
 
 
 def QuestionHeartView(request, pk):
@@ -185,3 +189,15 @@ def LoginView(request):
 def LogoutView(request):
     logout(request)
     return HttpResponseRedirect(settings.LOGIN_URL)
+
+
+class QuestionCommentList(generics.ListCreateAPIView):
+    queryset = QuestionComment.objects.all()
+    serializer_class = QuestionCommentSerializer
+
+
+class AnswerCommentList(generics.ListCreateAPIView):
+    queryset = AnswerComment.objects.all()
+    serializer_class = AnswerCommentSerializer
+
+

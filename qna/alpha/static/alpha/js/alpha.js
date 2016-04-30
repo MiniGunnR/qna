@@ -38,17 +38,33 @@ $(function() {
         });
     });
 
-    //$(document).on('click', '.ques-comments-show', function(e) {
-    //    e.preventDefault();
-    //
-    //    var $this = $(this);
-    //    var $href = $this.attr('href');
-    //
-    //    $.get($href, function(data, status) {
-    //        if (status == 'success') {
-    //
-    //        }
-    //    });
-    //});
+    $(document).on('click', '.ques-comments-show', function(e) {
+        e.preventDefault();
 
+        var $this = $(this);
+        var $href = $this.attr('href');
+        var $id = $this.attr('data-item-id');
+        var $comment_div = $('#ques-' + $id + '-comments');
+
+        $.get($href, function(data, status) {
+            if (status == 'success') {
+                $comment_div.toggle();
+            }
+        });
+    });
+
+     $(document).on('click', '.ans-comments-show', function(e) {
+        e.preventDefault();
+
+        var $this = $(this);
+        var $href = $this.attr('href');
+        var $id = $this.attr('data-item-id');
+         var $comment_div = $('#ans-' + $id + '-comments');
+
+        $.get($href, function(data, status) {
+            if (status == 'success') {
+                $comment_div.toggle();
+            }
+        });
+    });
 });
