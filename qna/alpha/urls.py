@@ -26,4 +26,7 @@ urlpatterns = [
 
     url(r'^show/ques/(?P<pk>\d+)/comments/$', views.QuestionCommentList.as_view(), name='show-ques-comments'),
     url(r'^show/ans/(?P<pk>\d+)/comments/$', views.AnswerCommentList.as_view(), name='show-ans-comments'),
+
+    url(r'^html/ques/(?P<pk>\d+)/comments/$', views.HtmlQuestionComment, name='html-ques-comments'),
+    url(r'^html/ans/(?P<pk>\d+)/comments/', views.HtmlAnswerComment, name='html-ans-comments'),
 ]

@@ -8,6 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+import requests
 
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
@@ -144,6 +145,11 @@ class QuestionDetail(DetailView):
     model = Question
     template_name = 'alpha/question-detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(QuestionDetail, self).get_context_data(**kwargs)
+        context['answers'] = Answer.objects.filter(parent=self.object)
+        return context
+
 
 class AnswerDetail(DetailView):
     model = Answer
@@ -152,7 +158,7 @@ class AnswerDetail(DetailView):
 
 class QuestionCreate(CreateView):
     model = Question
-    fields = ['title', 'body', 'category', ]
+    fields = ['title', 'body', 'category']
     template_name = 'alpha/question-create.html'
 
     def get_success_url(self):
@@ -195,12 +201,23 @@ class QuestionCommentList(generics.ListCreateAPIView):
     serializer_class = QuestionCommentSerializer
 
     def get_queryset(self):
-        return QuestionComment.objects.filter(parent=self.kwargs['pk'])
+        return QuestionComment.objects.filter(parent=self.kwargs['pk']).order_by('-created')
 
 
 class AnswerCommentList(generics.ListCreateAPIView):
     serializer_class = AnswerCommentSerializer
 
     def get_queryset(self):
-        return AnswerComment.objects.filter(parent=self.kwargs['pk'])
+        return AnswerComment.objects.filter(parent=self.kwargs['pk']).order_by('-created')
 
+
+def HtmlQuestionComment(request, pk):
+    url = requests.get("http://127.0.0.1:8000/show/ques/%s/comments/" % pk)
+    json_string = url.json()
+    return render(request, "alpha/html-ques-comments.html", {'comments': json_string, 'pk': pk})
+
+
+def HtmlAnswerComment(request, pk):
+    url = requests.get("http://127.0.0.1:8000/show/ans/%s/comments/" % pk)
+    json_string = url.json()
+    return render(request, "alpha/html-ans-comments.html", {'comments': json_string, 'pk': pk})

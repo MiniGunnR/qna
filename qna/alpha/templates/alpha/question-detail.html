@@ -1,4 +1,20 @@
-<h1>{{ object.title }}</h1>
-<p>{{ object.body }}</p>
-<p>Author: {{ object.author }}</p>
-<p>Published: {{ object.created|date }}</p>
+{% extends "base.html" %}
+
+{% block body %}
+    <div class="col-sm-7">
+        <h1>{{ object.title }}</h1>
+        <p>{{ object.body }}</p>
+        <p>Author: {{ object.author }}</p>
+        <p>Published: {{ object.created|date }}</p>
+
+        <hr/>
+        <p>{{ object.answers }} answer{{ object.answers|pluralize }}</p>
+        <hr/>
+
+        {% for answer in answers %}
+            {{ answer }} - {{ answer.author }} <br/>
+            <small>{{ answer.comments }} comment{{ answer.comments|pluralize }}</small>
+            {% endfor %}
+    </div>
+    <div class="col-sm-5"></div>
+{% endblock %}

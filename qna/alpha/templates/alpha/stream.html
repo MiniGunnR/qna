@@ -20,7 +20,7 @@
                     <div>
                         <ul class="stream-view-option">
                             <li><a href="{% url 'answer-detail' item.pk %}" target="_blank">{{ item.created|naturalday|capfirst }}</a> &bull;</li>
-                            <li><a href="#" class="ans-comments-show" data-item-id="{{ item.id }}">{{ item.comments }} comment{{ item.comments|pluralize }}</a></li>
+                            <li><a href="{% url 'html-ans-comments' item.pk %}" class="ans-comments-show" data-item-id="{{ item.id }}">{{ item.comments }} comment{{ item.comments|pluralize }}</a></li>
                         </ul>
                     </div>
 
@@ -38,8 +38,8 @@
                     <div>
                         <ul class="stream-view-option">
                             <li><a href="{% url 'question-detail' item.pk %}" target="_blank">{{ item.created|naturalday|capfirst }}</a> &bull;</li>
-                            <li><a href="#" class="ques-comments-show" data-item-id="{{ item.id }}">{{ item.comments }} comment{{ item.comments|pluralize }}</a> &bull;</li>
-                            <li><a href="#">{{ item.answers }} answer{{ item.answers|pluralize }}</a></li>
+                            <li><a href="{% url 'html-ques-comments' item.pk %}" class="ques-comments-show" data-item-id="{{ item.id }}">{{ item.comments }} comment{{ item.comments|pluralize }}</a> &bull;</li>
+                            <li><a href="{% url 'question-detail' item.pk %}" target="_blank">{{ item.answers }} answer{{ item.answers|pluralize }}</a></li>
                         </ul>
                     </div>
 
@@ -47,25 +47,17 @@
                         <ul class="text-right stream-post-option">
                             <li><a href="{% url 'question-heart' item.pk %}" class="heart"><i class="fa fa-heart-o{% if item.id|check_ques_heart:user %} red{% else %} gray{% endif %}"></i></a> &nbsp;</li>
                             <li><a href="#"><i class="fa fa-comment-o"></i></a> &nbsp;</li>
-                            <li><a href="#"><i class="fa fa-font"></i></a> &nbsp;</li>
+                            <li><a href="{% url 'question-detail' item.pk %}" target="_blank"><i class="fa fa-font"></i></a> &nbsp;</li>
                         </ul>
                     </div>
                 {% endif %}
             </div>
             </li>
-            {% if not item.parent and item.id == 2 %}
-                <div id="ques-{{ item.id }}-comments" class="comments-section">
-                    {% for comment in comments %}
-                        {{ comment }} - <a href="#">{{ comment.author }}</a> {% if not forloop.last %}<hr/>{% endif %}
-                    {% endfor %}
-                </div>
+            {% if not item.parent %}
+                <div id="div-for-ques-{{ item.id }}-comments"></div>
             {% endif %}
-            {% if item.parent and item.id == 1 %}
-                <div id="ans-{{ item.id }}-comments" class="comments-section">
-                    {% for comment in comments %}
-                        {{ comment }} - <a href="#">{{ comment.author }}</a> {% if not forloop.last %}<hr/>{% endif %}
-                    {% endfor %}
-                </div>
+            {% if item.parent %}
+                <div id="div-for-ans-{{ item.id }}-comments"></div>
             {% endif %}
         {% empty %}
             <li>No items yet.</li>

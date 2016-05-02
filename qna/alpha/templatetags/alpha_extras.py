@@ -1,4 +1,5 @@
 from django import template
+from django.contrib.auth.models import User
 
 from ..models.models import QuestionHeart, AnswerHeart
 
@@ -23,3 +24,13 @@ def check_ques_heart(value, arg):
         return False
     else:
         return True
+
+
+@register.filter
+def get_username(value):
+    try:
+        obj = User.objects.get(id=value)
+    except:
+        return value
+    else:
+        return obj.username
