@@ -192,12 +192,15 @@ def LogoutView(request):
 
 
 class QuestionCommentList(generics.ListCreateAPIView):
-    queryset = QuestionComment.objects.all()
     serializer_class = QuestionCommentSerializer
+
+    def get_queryset(self):
+        return QuestionComment.objects.filter(parent=self.kwargs['pk'])
 
 
 class AnswerCommentList(generics.ListCreateAPIView):
-    queryset = AnswerComment.objects.all()
     serializer_class = AnswerCommentSerializer
 
+    def get_queryset(self):
+        return AnswerComment.objects.filter(parent=self.kwargs['pk'])
 
