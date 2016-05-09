@@ -77,4 +77,27 @@ $(function() {
             $div.html('');
         }
     });
+
+    $(document).on('click', '.comment-form', function(e) {
+        e.preventDefault();
+
+        var $this = $(this);
+        var $href = $this.attr('href');
+        var $id = $this.attr('data-item-id');
+        var $div = $('#div-for-ques-' + $id + '-comment-create');
+
+        if ($div.html() == '') {
+            $.get($href, function(data, status) {
+                if (status == 'success') {
+                    $div.html(data);
+                    $this.children().toggleClass('red');
+                    $this.children().toggleClass('gray');
+                }
+            });
+        } else {
+            $div.html('');
+            $this.children().toggleClass('red');
+            $this.children().toggleClass('gray');
+        }
+    });
 });

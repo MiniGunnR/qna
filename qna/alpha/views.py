@@ -221,3 +221,7 @@ def HtmlAnswerComment(request, pk):
     url = requests.get("http://127.0.0.1:8000/show/ans/%s/comments/" % pk)
     json_string = url.json()
     return render(request, "alpha/html-ans-comments.html", {'comments': json_string, 'pk': pk})
+
+
+def HtmlQuestionCommentForm(request, pk):
+    return render(request, "alpha/html-ques-comment-form.html", {"pk": pk})

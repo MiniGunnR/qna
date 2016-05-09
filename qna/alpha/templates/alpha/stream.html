@@ -46,7 +46,7 @@
                     <div>
                         <ul class="text-right stream-post-option">
                             <li><a href="{% url 'question-heart' item.pk %}" class="heart"><i class="fa fa-heart-o{% if item.id|check_ques_heart:user %} red{% else %} gray{% endif %}"></i></a> &nbsp;</li>
-                            <li><a href="#"><i class="fa fa-comment-o"></i></a> &nbsp;</li>
+                            <li><a href="{% url 'html-ques-comment-form' item.pk %}" class="comment-form" data-item-id="{{ item.id }}"><i class="fa fa-comment-o gray"></i></a> &nbsp;</li>
                             <li><a href="{% url 'question-detail' item.pk %}" target="_blank"><i class="fa fa-font"></i></a> &nbsp;</li>
                         </ul>
                     </div>
