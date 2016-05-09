@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{#{% load static %}#}
 {% load humanize %}
 {% load alpha_extras %}
 
@@ -54,6 +54,7 @@
             </div>
             </li>
             {% if not item.parent %}
+                <div id="div-for-ques-{{ item.id }}-comment-create"></div>
                 <div id="div-for-ques-{{ item.id }}-comments"></div>
             {% endif %}
             {% if item.parent %}

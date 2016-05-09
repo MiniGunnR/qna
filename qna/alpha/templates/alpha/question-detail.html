@@ -1,20 +1,48 @@
 {% extends "base.html" %}
+{% load humanize %}
+{% load alpha_extras %}
 
 {% block body %}
     <div class="col-sm-7">
-        <h1>{{ object.title }}</h1>
-        <p>{{ object.body }}</p>
-        <p>Author: {{ object.author }}</p>
-        <p>Published: {{ object.created|date }}</p>
+        <p><a href="#">{{ object.author.get_full_name }}</a> <i style="color: green" class="fa fa-check"></i> <small>{{ object.created|date }}</small></p>
+        <h3>{{ object.title }}</h3>
+        <p class="gray">{{ object.body }}</p>
 
-        <hr/>
-        <p>{{ object.answers }} answer{{ object.answers|pluralize }}</p>
-        <hr/>
+        <p>
+            <span class="detail-view-option">
+{#                <a href="#" class="btn btn-default">Answer</a>&nbsp;#}
+                <a href="#"><i class="fa fa-font"></i></a>&nbsp;
+                &bull;&nbsp;
+                <a href="{% url 'question-heart' object.pk %}" class="heart"><i class="fa fa-heart-o{% if object.id|check_ques_heart:user %} red{% else %} gray{% endif %}"></i></a>&nbsp;
+                &bull;&nbsp;
+                <a href="#"><i class="fa fa-comment-o"></i></a>&nbsp;
+                &bull;&nbsp;
+                {{ object.answers }} answer{{ object.answers|pluralize }}&nbsp;
+                &bull;&nbsp;
+                <a href="{% url 'html-ques-comments' object.pk %}" class="ques-comments-show" data-item-id="{{ object.id }}">{{ object.comments }} comment{{ object.comments|pluralize }}</a> &nbsp;
+                &bull;&nbsp;
+                Share&nbsp;
+            </span>
+        </p>
 
+        <div class="spacer"></div>
+        <div id="div-for-ques-{{ object.id }}-comments"></div>
+
+        <ul id="stream">
         {% for answer in answers %}
-            {{ answer }} - {{ answer.author }} <br/>
-            <small>{{ answer.comments }} comment{{ answer.comments|pluralize }}</small>
+            <li>
+                <a href="#">{{ answer.author.get_full_name }}</a>&nbsp;
+                <small class="gray">{{ answer.created|naturalday }}</small> <br/>
+                {{ answer }} <br/>
+                <small class="detail-view-option">
+                    <a href="{% url 'html-ans-comments' answer.pk %}" class="ans-comments-show" data-item-id="{{ answer.id }}">{{ answer.comments }} comment{{ answer.comments|pluralize }}</a>
+                </small>
+            </li>
+
+            <div id="div-for-ans-{{ answer.id }}-comments"></div>
+
             {% endfor %}
+        </ul>
     </div>
     <div class="col-sm-5"></div>
 {% endblock %}

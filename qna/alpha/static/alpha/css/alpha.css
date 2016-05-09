@@ -71,7 +71,8 @@ html, body {
 }
 
 .stream-post-option,
-.stream-view-option {
+.stream-view-option,
+.detail-view-option {
     list-style-type: none;
     margin: 0px;
     padding: 0px;
@@ -88,7 +89,8 @@ html, body {
 }
 
 .stream-view-option > li > a,
-.stream-post-option > li > a {
+.stream-post-option > li > a,
+.detail-view-option > a {
     color: #ADADAD;
 }
 
