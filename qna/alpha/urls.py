@@ -31,5 +31,4 @@ urlpatterns = [
     url(r'^html/ans/(?P<pk>\d+)/comments/$', views.HtmlAnswerComment, name='html-ans-comments'),
 
     url(r'^html/ques/(?P<pk>\d+)/comment/form/$', views.HtmlQuestionCommentForm, name='html-ques-comment-form'),
-    url(r'^ques/(?P<pk>\d+)/form/redirect/$', views.),
 ]

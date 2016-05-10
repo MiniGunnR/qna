@@ -1,6 +1,9 @@
-<div id="ques-{{ pk }}-form" class="ques-comment-form">
+<div id="ques-{{ pk }}-comment-form" class="ques-comment-form" data-ques-id="{{ pk }}">
     <form action="#" method="post">
         {% csrf_token %}
-        <input type="text" id="comment" name="comment" class="form-control" /> <br/>
+        <input type="text" id="parent" name="parent" value="{{ pk }}" hidden />
+        <input type="text" id="ques-{{ pk }}-author" name="author" value="{{ user.id }}" hidden />
+        <input type="text" id="comment" name="comment" class="form-control" autofocus /> <br/>
+        <input type="submit" value="Post" hidden />
     </form>
 </div>
