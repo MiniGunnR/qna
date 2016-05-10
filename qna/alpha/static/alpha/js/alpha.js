@@ -116,7 +116,7 @@ $(function() {
         var data = {
             parent: $ques_id,
             author: $('#ques-' + $ques_id + '-author').val(),
-            body: $('#comment').val(),
+            body: $('#ques-' + $ques_id + '-comment-box').val(),
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             };
         var $div = $('#div-for-ques-' + $ques_id + '-comment-create');
