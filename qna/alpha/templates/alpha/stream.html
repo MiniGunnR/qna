@@ -47,13 +47,14 @@
                         <ul class="text-right stream-post-option">
                             <li><a href="{% url 'question-heart' item.pk %}" class="heart"><i class="fa fa-heart-o{% if item.id|check_ques_heart:user %} red{% else %} gray{% endif %}"></i></a> &nbsp;</li>
                             <li><a href="{% url 'html-ques-comment-form' item.pk %}" id="ques-{{ item.pk }}-comment-form" class="comment-form" data-item-id="{{ item.id }}"><i class="fa fa-comment-o gray"></i></a> &nbsp;</li>
-                            <li><a href="{% url 'question-detail' item.pk %}" target="_blank"><i class="fa fa-font"></i></a> &nbsp;</li>
+                            <li><a href="{% url 'answer-form' item.pk %}" id="ques-{{ item.pk }}-answer-form" class="answer-form" data-item-id="{{ item.id }}"><i class="fa fa-font gray"></i></a> &nbsp;</li>
                         </ul>
                     </div>
                 {% endif %}
             </div>
             </li>
             {% if not item.parent %}
+                <div id="div-for-ques-{{ item.id }}-answer-create"></div>
                 <div id="div-for-ques-{{ item.id }}-comment-create"></div>
                 <div id="div-for-ques-{{ item.id }}-comments"></div>
             {% endif %}
@@ -73,9 +74,17 @@
     <script>
 
     $(document).ready(function() {
-        $("#stream-link").css("border-bottom", "solid");
-        $("#stream-link").css("border-color", "#FF7F50");
-        $("#stream-link").css("color", "#9D9D9D");
+        $("#stream-link").css({
+            "border-bottom": "solid",
+            "border-color": "#FF7F50",
+            "color": "#9D9D9D"
+        });
+
+        $("#stream-link-icon").css({
+            "border-bottom": "solid",
+            "border-color": "#FF7F50",
+            "color": "#9D9D9D"
+        });
     });
 
     </script>

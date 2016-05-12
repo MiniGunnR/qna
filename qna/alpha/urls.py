@@ -31,4 +31,8 @@ urlpatterns = [
     url(r'^html/ans/(?P<pk>\d+)/comments/$', views.HtmlAnswerComment, name='html-ans-comments'),
 
     url(r'^html/ques/(?P<pk>\d+)/comment/form/$', views.HtmlQuestionCommentForm, name='html-ques-comment-form'),
+
+    url(r'^api/ques/(?P<pk>\d+)/answer/$', views.AnswerView.as_view(), name='answer-view'),
+
+    url(r'^html/ques/(?P<pk>\d+)/answer/$', views.AnswerForm, name='answer-form'),
 ]

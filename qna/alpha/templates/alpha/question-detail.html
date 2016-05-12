@@ -21,7 +21,7 @@
                 &bull;&nbsp;
                 <a href="{% url 'html-ques-comments' object.pk %}" class="ques-comments-show" data-item-id="{{ object.id }}">{{ object.comments }} comment{{ object.comments|pluralize }}</a> &nbsp;
                 &bull;&nbsp;
-                Share&nbsp;
+                <a href="#">Share</a>&nbsp;
             </span>
         </p>
 
@@ -45,4 +45,10 @@
         </ul>
     </div>
     <div class="col-sm-5"></div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $("#top-bar").css({"border-bottom": "dashed", "border-width": "1px", "border-color": "coral"});
+    </script>
 {% endblock %}

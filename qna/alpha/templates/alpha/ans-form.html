@@ -1,0 +1,17 @@
+<div id="ques-{{ pk }}-answer-form" class="ques-answer-form" data-ques-id="{{ pk }}">
+    <form action="#" method="post">
+        {% csrf_token %}
+        <input type="text" id="parent-ques-{{ pk }}" name="parent-ques-{{ pk }}" value="{{ pk }}" hidden />
+        <input type="text" id="ques-{{ pk }}-ans-author" name="ques-{{ pk }}-ans-author" value="{{ user.id }}" hidden />
+        <textarea type="text" id="ques-{{ pk }}-answer-box" name="ques-{{ pk }}-answer-box" class="form-control"></textarea> <br/>
+
+        <div class="text-right">
+            <input type="submit" class="btn btn-primary btn-xs" value="Post Answer" />
+        </div>
+
+    </form>
+</div>
+
+<script>
+    $('.form-control').focus();
+</script>

@@ -16,7 +16,7 @@ from django.views.generic.edit import CreateView
 from .models.models import Question, QuestionFlag, QuestionHeart, QuestionCommentHeart, QuestionCommentFlag,\
     Answer, AnswerFlag, AnswerHeart, AnswerCommentHeart, AnswerCommentFlag, QuestionComment, AnswerComment
 
-from .serializers import QuestionCommentSerializer, AnswerCommentSerializer
+from .serializers import QuestionCommentSerializer, AnswerCommentSerializer, AnswerSerializer
 
 from rest_framework import generics
 
@@ -225,3 +225,14 @@ def HtmlAnswerComment(request, pk):
 
 def HtmlQuestionCommentForm(request, pk):
     return render(request, "alpha/html-ques-comment-form.html", {"pk": pk})
+
+
+class AnswerView(generics.ListCreateAPIView):
+    serializer_class = AnswerSerializer
+
+    def get_queryset(self):
+        return Answer.objects.filter(parent=self.kwargs['pk']).order_by('-created')
+
+
+def AnswerForm(request, pk):
+    return render(request, "alpha/ans-form.html", {"pk": pk})

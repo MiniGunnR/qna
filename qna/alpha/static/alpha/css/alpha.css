@@ -23,7 +23,7 @@ html, body {
     top: 0px;
     left: 0px;
     right: 0px;
-    height: 30px;
+    height: 40px;
 }
 
 .top-bar-link {
@@ -119,14 +119,12 @@ html, body {
     border-color: #ADADAD;
 }
 
-.ques-comment-form {
+.ques-comment-form,
+.ques-answer-form {
     margin-left: 15px;
     margin-right: 15px;
     padding: 0px;
     font-size: 0.85em;
-    /*border: solid;*/
-    /*border-width: 1px;*/
-    /*border-color: #ADADAD;*/
 }
 
 @media (max-width: 400px) {
@@ -137,4 +135,9 @@ html, body {
     .stream-post-option {
         font-size: 0.8em;
     }
+}
+
+.form-control:focus {
+    border-color: #428BCA;
+    box-shadow:0 0 0px;
 }

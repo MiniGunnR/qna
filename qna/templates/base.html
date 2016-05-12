@@ -28,18 +28,35 @@
         <div class="col-xs-3"></div>
         <div class="col-xs-6 text-center" id="top-bar-mid">
             <ul id="mid-menu">
-                <li>
+
+                <li class="hidden-xs">
                     <a href="{% url 'stream' %}" class="top-bar-link" id="stream-link">STREAM</a>
                 </li>
-                <li>
+                <li class="hidden-sm hidden-md hidden-lg">
+                    <a href="{% url 'stream' %}" class="top-bar-link" id="stream-link-icon"><i class="fa fa-bars"></i></a>
+                </li>
+
+                <li class="hidden-xs">
                     <a href="{% url 'question-create' %}" class="top-bar-link" id="ask-link">ASK</a>
                 </li>
-                <li>
+                <li class="hidden-sm hidden-md hidden-lg">
+                    <a href="{% url 'question-create' %}" class="top-bar-link" id="ask-link-icon"><i class="fa fa-edit"></i></a>
+                </li>
+
+                <li class="hidden-xs">
                     <a href="#" class="top-bar-link" id="search-link">SEARCH</a>
                 </li>
-                <li>
+                <li class="hidden-sm hidden-md hidden-lg">
+                    <a href="#" class="top-bar-link" id="search-link"><i class="fa fa-search"></i></a>
+                </li>
+
+                <li class="hidden-xs">
                     <a href="#" class="top-bar-link" id="messages-link">MESSAGES</a>
                 </li>
+                <li class="hidden-sm hidden-md hidden-lg">
+                    <a href="#" class="top-bar-link" id="messages-link"><i class="fa fa-comments-o"></i></a>
+                </li>
+
             </ul>
         </div>
         <div class="col-xs-3 text-right">
