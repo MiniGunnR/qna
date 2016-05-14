@@ -141,10 +141,6 @@ def Stream(request):
     return render(request, "alpha/stream.html", {'queryset': queryset, 'comments': comments})
 
 
-class StreamAPI(generics.ListAPIView):
-    model = 
-
-
 class QuestionDetail(DetailView):
     model = Question
     template_name = 'alpha/question-detail.html'
