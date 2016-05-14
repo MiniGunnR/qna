@@ -194,12 +194,20 @@ $(function() {
             };
         var $href = '/html/ques/' + $ques_id + '/answer/';
         var $div = $('#div-for-ques-' + $ques_id + '-answer-create');
+        var $div_msg = $('#div-for-ques-' + $ques_id + '-info')
         var $answer_icon = $('#ques-' + $ques_id + '-answer-form');
 
         console.log(data);
 
         $.post('/api/ques/' + $ques_id + '/answer/', data);
         $div.html('');
+        $div_msg.html('Your <b><a href="/question/' + $ques_id + '/" target="_blank">answer</a></b> was posted.');
+        $div_msg.addClass('alert alert-info');
+        $div_msg.css({
+            "margin": "10px",
+            "padding": "10px"
+        });
+
         $.get($href, function(data, status) {
             if (status == 'success') {
                 $answer_icon.children().toggleClass('red').toggleClass('gray');

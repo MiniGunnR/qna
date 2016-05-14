@@ -19,6 +19,8 @@ urlpatterns = [
     url(r'^logout/$', views.LogoutView, name='logout'),
 
     url(r'^stream/$', views.Stream, name='stream'),
+    url(r'^api/stream/$', views.StreamAPI, name='stream-api'),
+
     url(r'^question/(?P<pk>\d+)/$', views.QuestionDetail.as_view(), name='question-detail'),
     url(r'^answer/(?P<pk>\d+)/$', views.AnswerDetail.as_view(), name='answer-detail'),
 

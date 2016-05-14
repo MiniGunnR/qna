@@ -12,9 +12,9 @@
             <li>
             <div>
             {% if item.parent %} {# If this item is an answer #}
-                <small class="gray">{{ item.parent.title }}</small> <br/>
-                <a href="{% url 'answer-detail' item.pk %}" target="_blank" class="post">{{ item }}</a>
-
+                <a href="{% url 'question-detail' item.parent.pk %}" target="_blank" style="color: #ADADAD;"><small class="gray">{{ item.parent.title }}</small></a> <br/>
+{#                <a href="{% url 'answer-detail' item.pk %}" target="_blank" class="post">{{ item }}</a>#}
+                <p>{{ item }}</p>
                 <hr style="margin-bottom: 10px;"/>
 
                     <div>
@@ -54,6 +54,7 @@
             </div>
             </li>
             {% if not item.parent %}
+                <div id="div-for-ques-{{ item.id }}-info"></div>
                 <div id="div-for-ques-{{ item.id }}-answer-create"></div>
                 <div id="div-for-ques-{{ item.id }}-comment-create"></div>
                 <div id="div-for-ques-{{ item.id }}-comments"></div>
