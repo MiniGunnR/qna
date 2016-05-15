@@ -20,14 +20,14 @@
                     <div>
                         <ul class="stream-view-option">
                             <li><a href="{% url 'answer-detail' item.pk %}" target="_blank">{{ item.created|naturalday|capfirst }}</a> &bull;</li>
-                            <li><a href="{% url 'html-ans-comments' item.pk %}" class="ans-comments-show" data-item-id="{{ item.id }}">{{ item.comments }} comment{{ item.comments|pluralize }}</a></li>
+                            <li><a href="{% url 'html-ans-comments' item.pk %}" class="ans-comments-show" data-item-id="{{ item.id }}"><span id="ans-{{ item.id }}-comment-count">{{ item.comments }}</span> comment{{ item.comments|pluralize }}</a></li>
                         </ul>
                     </div>
 
                     <div>
                         <ul class="text-right stream-post-option">
                             <li><a href="{% url 'answer-heart' item.pk %}" class="heart"><i class="fa fa-heart-o{% if item.id|check_ans_heart:user %} red{% else %} gray{% endif %}"></i></a> &nbsp;</li>
-                            <li><a href="#"><i class="fa fa-comment-o"></i></a> &nbsp;</li>
+                            <li><a href="{% url 'html-ans-comment-form' item.pk %}" id="ans-{{ item.pk }}-comment-form" class="comment-form-ans-icon" data-item-id="{{ item.id }}"><i class="fa fa-comment-o gray"></i></a> &nbsp;</li>
                         </ul>
                     </div>
             {% else %} {# If this item is a question #}
@@ -38,7 +38,7 @@
                     <div>
                         <ul class="stream-view-option">
                             <li><a href="{% url 'question-detail' item.pk %}" target="_blank">{{ item.created|naturalday|capfirst }}</a> &bull;</li>
-                            <li><a href="{% url 'html-ques-comments' item.pk %}" class="ques-comments-show" data-item-id="{{ item.id }}">{{ item.comments }} comment{{ item.comments|pluralize }}</a> &bull;</li>
+                            <li><a href="{% url 'html-ques-comments' item.pk %}" class="ques-comments-show" data-item-id="{{ item.id }}"><span id="ques-{{ item.id }}-comment-count">{{ item.comments }}</span> comment{{ item.comments|pluralize }}</a> &bull;</li>
                             <li><a href="{% url 'question-detail' item.pk %}" target="_blank">{{ item.answers }} answer{{ item.answers|pluralize }}</a></li>
                         </ul>
                     </div>
@@ -60,6 +60,9 @@
                 <div id="div-for-ques-{{ item.id }}-comments"></div>
             {% endif %}
             {% if item.parent %}
+                <div id="div-for-ans-{{ item.id }}-info"></div>
+                <div id="div-for-ans-{{ item.id }}-answer-create"></div>
+                <div id="div-for-ans-{{ item.id }}-comment-create"></div>
                 <div id="div-for-ans-{{ item.id }}-comments"></div>
             {% endif %}
         {% empty %}
@@ -73,6 +76,8 @@
 
 {% block script %}
     <script>
+
+    $("#top-bar").css({"border-bottom": "dashed", "border-width": "1px", "border-color": "coral"});
 
     $(document).ready(function() {
         $("#stream-link").css({

@@ -9,37 +9,54 @@
         <p class="gray">{{ object.body }}</p>
 
         <p>
-            <span class="detail-view-option">
+            <span class="detail-view-option gray">
 {#                <a href="#" class="btn btn-default">Answer</a>&nbsp;#}
-                <a href="#"><i class="fa fa-font"></i></a>&nbsp;
+                <a href="{% url 'answer-form-detail' object.pk %}" id="ques-{{ object.pk }}-answer-form" class="answer-form" data-item-id="{{ object.id }}"><i class="fa fa-font gray"></i></a>&nbsp;
                 &bull;&nbsp;
                 <a href="{% url 'question-heart' object.pk %}" class="heart"><i class="fa fa-heart-o{% if object.id|check_ques_heart:user %} red{% else %} gray{% endif %}"></i></a>&nbsp;
                 &bull;&nbsp;
-                <a href="#"><i class="fa fa-comment-o"></i></a>&nbsp;
+                <a href="{% url 'html-ques-comment-form' object.pk %}" id="ques-{{ object.pk }}-comment-form" class="comment-form" data-item-id="{{ object.id }}"><i class="fa fa-comment-o gray"></i></a> &nbsp;
                 &bull;&nbsp;
                 {{ object.answers }} answer{{ object.answers|pluralize }}&nbsp;
                 &bull;&nbsp;
-                <a href="{% url 'html-ques-comments' object.pk %}" class="ques-comments-show" data-item-id="{{ object.id }}">{{ object.comments }} comment{{ object.comments|pluralize }}</a> &nbsp;
+                <a href="{% url 'html-ques-comments' object.pk %}" class="ques-comments-show" data-item-id="{{ object.id }}"><span id="ques-{{ object.id }}-comment-count">{{ object.comments }}</span> comment{{ object.comments|pluralize }}</a> &nbsp;
                 &bull;&nbsp;
                 <a href="#">Share</a>&nbsp;
             </span>
         </p>
 
         <div class="spacer"></div>
+        <div id="div-for-ques-{{ object.id }}-answer-create"></div>
         <div id="div-for-ques-{{ object.id }}-comments"></div>
+        <div id="div-for-ques-{{ object.id }}-comment-create"></div>
 
         <ul id="stream">
         {% for answer in answers %}
             <li>
                 <a href="#">{{ answer.author.get_full_name }}</a>&nbsp;
                 <small class="gray">{{ answer.created|naturalday }}</small> <br/>
-                {{ answer }} <br/>
-                <small class="detail-view-option">
-                    <a href="{% url 'html-ans-comments' answer.pk %}" class="ans-comments-show" data-item-id="{{ answer.id }}">{{ answer.comments }} comment{{ answer.comments|pluralize }}</a>
-                </small>
+                {{ answer|linebreaksbr }}
+                <hr style="margin-bottom: 10px;"/>
+{#                <small class="detail-view-option">#}
+{#                    <a href="{% url 'html-ans-comments' answer.pk %}" class="ans-comments-show" data-item-id="{{ answer.id }}">{{ answer.comments }} comment{{ answer.comments|pluralize }}</a>#}
+{#                </small>#}
+                <div>
+                    <ul class="stream-view-option">
+                        <li><a href="{% url 'html-ans-comments' answer.pk %}" class="ans-comments-show" data-item-id="{{ answer.id }}"><span id="ans-{{ answer.id }}-comment-count">{{ answer.comments }}</span> comment{{ answer.comments|pluralize }}</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <ul class="text-right stream-post-option">
+                        <li><a href="{% url 'answer-heart' answer.pk %}" class="heart"><i class="fa fa-heart-o{% if answer.id|check_ans_heart:user %} red{% else %} gray{% endif %}"></i></a> &nbsp;</li>
+                        <li><a href="{% url 'html-ans-comment-form' answer.pk %}" id="ans-{{ answer.pk }}-comment-form" class="comment-form-ans-icon" data-item-id="{{ answer.id }}"><i class="fa fa-comment-o gray"></i></a> &nbsp;</li>
+                    </ul>
+                </div>
             </li>
 
             <div id="div-for-ans-{{ answer.id }}-comments"></div>
+            <div id="div-for-ans-{{ answer.id }}-comment-create"></div>
+
 
             {% endfor %}
         </ul>

@@ -1,0 +1,14 @@
+<div id="ans-{{ pk }}-comment-form" class="ans-comment-form" data-ans-id="{{ pk }}">
+    <small class="gray">Type your comment and press Enter.</small>
+    <form action="#" method="post">
+        {% csrf_token %}
+        <input type="text" id="parent" name="parent" value="{{ pk }}" hidden />
+        <input type="text" id="ans-{{ pk }}-author" name="author" value="{{ user.id }}" hidden />
+        <input type="text" id="ans-{{ pk }}-comment-box" name="comment" class="form-control"/> <br/>
+        <input type="submit" value="Post" hidden />
+    </form>
+</div>
+
+<script>
+    $('.form-control').focus();
+</script>

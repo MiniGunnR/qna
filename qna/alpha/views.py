@@ -9,6 +9,9 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 import requests
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
@@ -16,7 +19,7 @@ from django.views.generic.edit import CreateView
 from .models.models import Question, QuestionFlag, QuestionHeart, QuestionCommentHeart, QuestionCommentFlag,\
     Answer, AnswerFlag, AnswerHeart, AnswerCommentHeart, AnswerCommentFlag, QuestionComment, AnswerComment
 
-from .serializers import QuestionCommentSerializer, AnswerCommentSerializer, AnswerSerializer
+from .serializers import QuestionCommentSerializer, AnswerCommentSerializer, AnswerSerializer, QuestionSerializer
 
 from rest_framework import generics
 
@@ -105,7 +108,7 @@ def AnswerCommentFlagView(request, pk):
 @login_required()
 def Stream(request):
     questions = Question.objects.all()
-    answers = Answer.objects.all()
+    answers = Answer.objects.filter(hearts__gte=1)
     combined = sorted(chain(questions, answers), key=attrgetter('created'), reverse=True)
     queryset = []
     for item in combined:
@@ -141,13 +144,24 @@ def Stream(request):
     return render(request, "alpha/stream.html", {'queryset': queryset, 'comments': comments})
 
 
+# @api_view(['GET'])
+# def StreamAPI(request):
+#     if request.method == 'GET':
+#         questions = Question.objects.all()
+#         questions_serializer = QuestionSerializer(questions, many=True)
+#         answers = Answer.objects.all()
+#         answers_serializer = AnswerSerializer(answers, many=True)
+#         combined = sorted(chain(questions, answers), key=attrgetter('created'), reverse=True)
+#         queryset = []
+
+
 class QuestionDetail(DetailView):
     model = Question
     template_name = 'alpha/question-detail.html'
 
     def get_context_data(self, **kwargs):
         context = super(QuestionDetail, self).get_context_data(**kwargs)
-        context['answers'] = Answer.objects.filter(parent=self.object)
+        context['answers'] = Answer.objects.filter(parent=self.object).order_by('-hearts', '-created')
         return context
 
 
@@ -227,6 +241,10 @@ def HtmlQuestionCommentForm(request, pk):
     return render(request, "alpha/html-ques-comment-form.html", {"pk": pk})
 
 
+def HtmlAnswerCommentForm(request, pk):
+    return render(request, "alpha/html-ans-comment-form.html", {"pk": pk})
+
+
 class AnswerView(generics.ListCreateAPIView):
     serializer_class = AnswerSerializer
 
@@ -236,3 +254,7 @@ class AnswerView(generics.ListCreateAPIView):
 
 def AnswerForm(request, pk):
     return render(request, "alpha/ans-form.html", {"pk": pk})
+
+
+def AnswerFormDetail(request, pk):
+    return render(request, "alpha/ans-form-detail.html", {"pk": pk})

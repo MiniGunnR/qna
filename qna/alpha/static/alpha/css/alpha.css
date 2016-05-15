@@ -24,6 +24,8 @@ html, body {
     left: 0px;
     right: 0px;
     height: 40px;
+    background-color: white;
+    z-index: 1;
 }
 
 .top-bar-link {
@@ -71,8 +73,7 @@ html, body {
 }
 
 .stream-post-option,
-.stream-view-option,
-.detail-view-option {
+.stream-view-option {
     list-style-type: none;
     margin: 0px;
     padding: 0px;
@@ -120,6 +121,7 @@ html, body {
 }
 
 .ques-comment-form,
+.ans-comment-form,
 .ques-answer-form {
     margin-left: 15px;
     margin-right: 15px;
