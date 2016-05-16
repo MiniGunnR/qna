@@ -17,7 +17,8 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 
 from .models.models import Question, QuestionFlag, QuestionHeart, QuestionCommentHeart, QuestionCommentFlag,\
-    Answer, AnswerFlag, AnswerHeart, AnswerCommentHeart, AnswerCommentFlag, QuestionComment, AnswerComment
+    Answer, AnswerFlag, AnswerHeart, AnswerCommentHeart, AnswerCommentFlag, QuestionComment, AnswerComment, \
+    Notification
 
 from .serializers import QuestionCommentSerializer, AnswerCommentSerializer, AnswerSerializer, QuestionSerializer
 
@@ -258,3 +259,8 @@ def AnswerForm(request, pk):
 
 def AnswerFormDetail(request, pk):
     return render(request, "alpha/ans-form-detail.html", {"pk": pk})
+
+
+def Notifications(request):
+    noti = Notification.objects.filter(to=request.user)
+    return render(request, "alpha/notifications.html", {"noti": noti})

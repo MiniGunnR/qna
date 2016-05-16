@@ -39,4 +39,6 @@ urlpatterns = [
 
     url(r'^html/ques/(?P<pk>\d+)/answer/$', views.AnswerForm, name='answer-form'),
     url(r'^html/ques/(?P<pk>\d+)/answer/in/detail/page/$', views.AnswerFormDetail, name='answer-form-detail'),
+
+    url(r'^notifications/$', views.Notifications, name='notifications'),
 ]
