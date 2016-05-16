@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.auth.models import User
 from abstracts import TimeStamped, PostAttribute, CommentCount, QuestionChild, AnswerChild, \
     QuestionPoint, AnswerPoint, QuestionCommentPoint, AnswerCommentPoint
 
@@ -22,6 +23,7 @@ class Question(PostAttribute, CommentCount):
     category = models.ForeignKey(Category)
     closed = models.BooleanField(default=False)
     answers = models.PositiveIntegerField(default=0, blank=True, null=True)
+    followers = models.PositiveIntegerField(default=0, blank=True, null=True)
 
     def __unicode__(self):
         return self.title
@@ -116,3 +118,20 @@ class AnswerCommentFlag(AnswerCommentPoint):
     def __unicode__(self):
         return "%s - %s" % (self.user, self.comment)
 
+
+class Notification(TimeStamped):
+    frm = models.ForeignKey(User)
+    action = models.CharField(max_length=100)
+    to = models.ForeignKey(User, related_name='my_notifications')
+
+    def __unicode__(self):
+        return "%s %s %s" % (self.frm, self.action, self.to)
+
+
+class QuestionFollowers(QuestionPoint):
+
+    class Meta:
+        verbose_name_plural = 'X: Follows -> Question'
+
+    def __unicode__(self):
+        return "%s following %s" % (self.user, self.question)

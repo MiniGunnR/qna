@@ -6,12 +6,14 @@
     <div class="col-sm-7">
         <p><a href="#">{{ object.author.get_full_name }}</a> <i style="color: green" class="fa fa-check"></i> <small>{{ object.created|date }}</small></p>
         <h3>{{ object.title }}</h3>
-        <p class="gray">{{ object.body }}</p>
+        <p>{{ object.body|linebreaks }}</p>
 
         <p>
             <span class="detail-view-option gray">
 {#                <a href="#" class="btn btn-default">Answer</a>&nbsp;#}
                 <a href="{% url 'answer-form-detail' object.pk %}" id="ques-{{ object.pk }}-answer-form" class="answer-form" data-item-id="{{ object.id }}"><i class="fa fa-font gray"></i></a>&nbsp;
+                &bull;&nbsp;
+                <a href="#" class="follow"><i class="fa fa-bookmark-o gray"></i></a> &nbsp;
                 &bull;&nbsp;
                 <a href="{% url 'question-heart' object.pk %}" class="heart"><i class="fa fa-heart-o{% if object.id|check_ques_heart:user %} red{% else %} gray{% endif %}"></i></a>&nbsp;
                 &bull;&nbsp;

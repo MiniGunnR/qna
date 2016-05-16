@@ -41,7 +41,8 @@ html, body {
 }
 
 #mid-menu,
-#right-menu {
+#right-menu,
+#right-menu li ul li {
     list-style-type: none;
     margin: 10px;
     padding: 0px;

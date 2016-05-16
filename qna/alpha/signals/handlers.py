@@ -2,7 +2,8 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 from ..models.models import Question, Answer, QuestionComment, AnswerComment, QuestionHeart, QuestionFlag, \
-    AnswerHeart, AnswerFlag, QuestionCommentHeart, QuestionCommentFlag, AnswerCommentHeart, AnswerCommentFlag
+    AnswerHeart, AnswerFlag, QuestionCommentHeart, QuestionCommentFlag, AnswerCommentHeart, AnswerCommentFlag, \
+    Notification
 
 
 # # # ADD AND REMOVE QUESTION COUNT IN THE CATEGORY MODEL # # #
@@ -161,4 +162,13 @@ def rem_ans_comment_flag_count_from_answer_comment(instance, **kwargs):
     instance.comment.flags -= 1
     instance.comment.save()
 # # # --------------------------------------------------- # # #
+
+@receiver(post_save, sender=Answer)
+def answer_written_notification_to_questioner(instance, created, **kwargs):
+    if created:
+        frm = instance.author
+        action = 'wrote an answer to <a href="/question/' + str(instance.parent.id) +  '/">your question</a>.'
+        # action = 'wrote an answer to your question.'
+        to = instance.parent.author
+        Notification.objects.create(frm=frm, action=action, to=to)
 
