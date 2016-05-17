@@ -172,3 +172,35 @@ def answer_written_notification_to_questioner(instance, created, **kwargs):
         to = instance.parent.author
         Notification.objects.create(frm=frm, action=action, to=to)
 
+@receiver(post_save, sender=QuestionComment)
+def comment_written_notification_to_questioner(instance, created, **kwargs):
+    if created:
+        frm = instance.author
+        action = 'commented on <a href="/question/' + str(instance.parent.id) +  '/">your question</a>.'
+        to = instance.parent.author
+        Notification.objects.create(frm=frm, action=action, to=to)
+
+@receiver(post_save, sender=AnswerComment)
+def comment_written_notification_to_answerer(instance, created, **kwargs):
+    if created:
+        frm = instance.author
+        action = 'commented on <a href="/question/' + str(instance.parent.parent.id) +  '/">your answer</a>.'
+        to = instance.parent.author
+        Notification.objects.create(frm=frm, action=action, to=to)
+
+@receiver(post_save, sender=QuestionHeart)
+def question_heart_notification_to_questioner(instance, created, **kwargs):
+    if created:
+        frm = instance.user
+        action = 'hearted <a href="/question/' + str(instance.question.id) +  '/">your question</a>.'
+        to = instance.question.author
+        Notification.objects.create(frm=frm, action=action, to=to)
+
+@receiver(post_save, sender=AnswerHeart)
+def answer_heart_notification_to_answerer(instance, created, **kwargs):
+    if created:
+        frm = instance.user
+        action = 'hearted <a href="/question/' + str(instance.answer.parent.id) +  '/">your answer</a>.'
+        to = instance.answer.parent.author
+        Notification.objects.create(frm=frm, action=action, to=to)
+

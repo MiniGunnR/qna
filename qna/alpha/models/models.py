@@ -120,9 +120,17 @@ class AnswerCommentFlag(AnswerCommentPoint):
 
 
 class Notification(TimeStamped):
-    frm = models.ForeignKey(User)
-    action = models.CharField(max_length=100)
-    to = models.ForeignKey(User, related_name='my_notifications')
+    actor = models.ForeignKey(User)
+    action_choices = (
+        ('A', 'wrote an answer to your question.'),
+        ('QC', 'commented on your question.'),
+        ('AC', 'commented on your answer.'),
+        ('QH', 'liked your answer.'),
+        ('AH', 'liked your answer.'),
+    )
+    action = models.CharField(max_length=2,
+                              choices=action_choices)
+    user = models.ForeignKey(User, related_name='my_notifications')
 
     def __unicode__(self):
         return "%s %s %s" % (self.frm, self.action, self.to)
@@ -135,3 +143,4 @@ class QuestionFollowers(QuestionPoint):
 
     def __unicode__(self):
         return "%s following %s" % (self.user, self.question)
+

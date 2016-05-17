@@ -18,7 +18,7 @@ from django.views.generic.edit import CreateView
 
 from .models.models import Question, QuestionFlag, QuestionHeart, QuestionCommentHeart, QuestionCommentFlag,\
     Answer, AnswerFlag, AnswerHeart, AnswerCommentHeart, AnswerCommentFlag, QuestionComment, AnswerComment, \
-    Notification
+    Notification, QuestionFollowers
 
 from .serializers import QuestionCommentSerializer, AnswerCommentSerializer, AnswerSerializer, QuestionSerializer
 
@@ -262,5 +262,15 @@ def AnswerFormDetail(request, pk):
 
 
 def Notifications(request):
-    noti = Notification.objects.filter(to=request.user)
+    noti = Notification.objects.filter(to=request.user).order_by('-created')
     return render(request, "alpha/notifications.html", {"noti": noti})
+
+
+def QuestionFollowView(request, pk):
+    obj, created = QuestionFollowers.objects.get_or_create(question_id=pk, user=request.user)
+
+    if not created:
+        obj.delete()
+        return JsonResponse({"response": "unfollowed"})
+    else:
+        return JsonResponse({"response": "followed"})
