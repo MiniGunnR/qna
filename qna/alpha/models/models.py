@@ -119,8 +119,7 @@ class AnswerCommentFlag(AnswerCommentPoint):
         return "%s - %s" % (self.user, self.comment)
 
 
-class Notification(TimeStamped):
-    actor = models.ForeignKey(User)
+class NotificationObject(TimeStamped):
     action_choices = (
         ('A', 'wrote an answer to your question.'),
         ('QC', 'commented on your question.'),
@@ -129,11 +128,28 @@ class Notification(TimeStamped):
         ('AH', 'liked your answer.'),
     )
     action = models.CharField(max_length=2,
-                              choices=action_choices)
+                              choices=action_choices,
+                              default='A')
+    url = models.CharField(max_length=200, default='')
+
+
+class NotificationDetail(TimeStamped):
+    obj = models.ForeignKey('NotificationObject')
+    actor = models.ForeignKey(User)
+    isRead = models.BooleanField(default=False)
     user = models.ForeignKey(User, related_name='my_notifications')
 
     def __unicode__(self):
-        return "%s %s %s" % (self.frm, self.action, self.to)
+        return "%s %s -> %s" % (self.actor, self.get_action_display(), self.user)
+
+
+class Notification(TimeStamped):
+    primary_actor = models.CharField(max_length=50)
+    extra_actors = models.CharField(max_length=50, default='') # follow values for this field with a space
+    action = models.CharField(max_length=200)
+
+    def __unicode__(self):
+        return "%s %s%s" % self.primary_actor, self.extra_actors, self.action
 
 
 class QuestionFollowers(QuestionPoint):
@@ -143,4 +159,3 @@ class QuestionFollowers(QuestionPoint):
 
     def __unicode__(self):
         return "%s following %s" % (self.user, self.question)
-

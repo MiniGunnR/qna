@@ -262,7 +262,7 @@ def AnswerFormDetail(request, pk):
 
 
 def Notifications(request):
-    noti = Notification.objects.filter(to=request.user).order_by('-created')
+    noti = Notification.objects.filter(user=request.user).order_by('-created')
     return render(request, "alpha/notifications.html", {"noti": noti})
 
 

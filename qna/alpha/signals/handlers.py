@@ -166,11 +166,12 @@ def rem_ans_comment_flag_count_from_answer_comment(instance, **kwargs):
 @receiver(post_save, sender=Answer)
 def answer_written_notification_to_questioner(instance, created, **kwargs):
     if created:
-        frm = instance.author
-        action = 'wrote an answer to <a href="/question/' + str(instance.parent.id) +  '/">your question</a>.'
-        # action = 'wrote an answer to your question.'
-        to = instance.parent.author
-        Notification.objects.create(frm=frm, action=action, to=to)
+        actor = instance.author
+        # action = 'wrote an answer to <a href="/question/' + str(instance.parent.id) +  '/">your question</a>.'
+        action = 'A'
+        user = instance.parent.author
+        url = '/question/%s/' % instance.parent.id
+        Notification.objects.create(actor=actor, action=action, user=user, url=url)
 
 @receiver(post_save, sender=QuestionComment)
 def comment_written_notification_to_questioner(instance, created, **kwargs):

@@ -3,9 +3,13 @@
 {% block body %}
     <h3>Notifications</h3>
 
+    <ul style="list-style-type: none;">
     {% for item in noti %}
-        {{ item.frm }} {{ item.action|safe }} <br/>
+        <li>
+            <a href="{{ item.url }}">{{ item.actor }} {{ item.get_action_display }}</a>
+        </li>
         {% endfor %}
+    </ul>
 {% endblock %}
 
 {% block script %}
@@ -13,5 +17,19 @@
 
     $("#top-bar").css({"border-bottom": "dashed", "border-width": "1px", "border-color": "coral"});
 
+    $(document).ready(function() {
+        $("#notifications-link").css({
+            "border-bottom": "solid",
+            "border-color": "#FF7F50",
+            "color": "#9D9D9D"
+        });
+        $("#notifications-link-icon").css({
+            "border-bottom": "solid",
+            "border-color": "#FF7F50",
+            "color": "#9D9D9D"
+        });
+    });
+
     </script>
 {% endblock %}
+
