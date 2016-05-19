@@ -162,15 +162,11 @@ class NotificationObject(TimeStamped):
     primary_actor = models.CharField(max_length=50, default='Someone')
     actor_count = models.PositiveIntegerField(default=0)
     action = models.CharField(max_length=200, default='wrote an answer to your question.')
-    url = models.URLField()
+    url = models.CharField(max_length=200)
     is_read = models.BooleanField(default=False)
 
     def extra_actor_count(self):
         return self.actor_count - 1
-
-    # have to get rid of it due to is_read logic
-    # class Meta:
-    #     unique_together = ('user', 'action', 'url')
 
     def __unicode__(self):
         return "%s on %s" % (self.action, self.url)

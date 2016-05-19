@@ -172,9 +172,8 @@ def answer_written_notification_to_questioner(instance, created, **kwargs):
         user = instance.parent.author
         url = '/question/%s/' % instance.parent.id
 
-        obj, created = NotificationObject.objects.update_or_create(user=user, action=action, url=url, defaults={
+        obj, created = NotificationObject.objects.update_or_create(user=user, action=action, url=url, is_read=False, defaults={
             "primary_actor": actor.username,
-            "is_read": False,
         })
 
         NotificationObjectActor.objects.create(obj=obj, actor=actor)
@@ -191,32 +190,60 @@ def increase_actor_count_in_notification_object(sender, instance, **kwargs):
 @receiver(post_save, sender=QuestionComment)
 def comment_written_notification_to_questioner(instance, created, **kwargs):
     if created:
-        frm = instance.author
-        action = 'commented on <a href="/question/' + str(instance.parent.id) +  '/">your question</a>.'
-        to = instance.parent.author
-        Notification.objects.create(frm=frm, action=action, to=to)
+        actor = instance.author
+        action = 'commented on your question.'
+        user = instance.parent.author
+        url = '/question/%s/' % instance.parent.id
+
+        obj, created = NotificationObject.objects.update_or_create(user=user, action=action, url=url, is_read=False, defaults={
+            "primary_actor": actor.username,
+        })
+
+        NotificationObjectActor.objects.create(obj=obj, actor=actor)
 
 @receiver(post_save, sender=AnswerComment)
 def comment_written_notification_to_answerer(instance, created, **kwargs):
     if created:
-        frm = instance.author
-        action = 'commented on <a href="/question/' + str(instance.parent.parent.id) +  '/">your answer</a>.'
-        to = instance.parent.author
-        Notification.objects.create(frm=frm, action=action, to=to)
+        actor = instance.author
+        action = 'commented on your answer.'
+        user = instance.parent.author
+        url = '/answer/%s/' % instance.parent.id
+
+        obj, created = NotificationObject.objects.update_or_create(user=user, action=action, url=url, is_read=False, defaults={
+            "primary_actor": actor.username,
+        })
+
+        NotificationObjectActor.objects.create(obj=obj, actor=actor)
 
 @receiver(post_save, sender=QuestionHeart)
 def question_heart_notification_to_questioner(instance, created, **kwargs):
     if created:
-        frm = instance.user
-        action = 'hearted <a href="/question/' + str(instance.question.id) +  '/">your question</a>.'
-        to = instance.question.author
-        Notification.objects.create(frm=frm, action=action, to=to)
+        actor = instance.user
+        action = 'hearted your question.'
+        user = instance.question.author
+        url = '/question/%s/' % instance.id
+
+        obj, created = NotificationObject.objects.update_or_create(user=user, action=action, url=url, is_read=False, defaults={
+            "primary_actor": actor.username,
+        })
+
+        NotificationObjectActor.objects.create(obj=obj, actor=actor)
+
+# Make a handler for deleting notification when user unhearts question
 
 @receiver(post_save, sender=AnswerHeart)
 def answer_heart_notification_to_answerer(instance, created, **kwargs):
     if created:
-        frm = instance.user
+        actor = instance.user
         action = 'hearted <a href="/question/' + str(instance.answer.parent.id) +  '/">your answer</a>.'
-        to = instance.answer.parent.author
-        Notification.objects.create(frm=frm, action=action, to=to)
+        user = instance.answer.parent.author
+        url = '/answer/%s/' % instance.id
+
+        obj, created = NotificationObject.objects.update_or_create(user=user, action=action, url=url, is_read=False, defaults={
+            "primary_actor": actor.username,
+        })
+
+        NotificationObjectActor.objects.create(obj=obj, actor=actor)
+
+# Make a handler for deleting notification when user unhearts answer
 
