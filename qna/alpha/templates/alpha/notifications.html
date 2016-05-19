@@ -6,7 +6,11 @@
     <ul style="list-style-type: none;">
     {% for item in noti %}
         <li>
-            <a href="{{ item.url }}">{{ item.primary_actor }} {{ item.extra_actors }} {{ item.action }}</a>
+            {% if item.actor_count == 1 %}
+                <a href="{{ item.url }}">{{ item.primary_actor }} {{ item.action }}</a>
+            {% else %}
+                <a href="{{ item.url }}">{{ item.primary_actor }} and {{ item.extra_actor_count }} other{{ item.extra_actor_count|pluralize }} {{ item.action }}</a>
+            {% endif %}
         </li>
         {% endfor %}
     </ul>

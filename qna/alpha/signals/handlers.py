@@ -168,16 +168,9 @@ def rem_ans_comment_flag_count_from_answer_comment(instance, **kwargs):
 def answer_written_notification_to_questioner(instance, created, **kwargs):
     if created:
         actor = instance.author
-        # action = 'wrote an answer to <a href="/question/' + str(instance.parent.id) +  '/">your question</a>.'
-        # action = 'A'
         action = 'wrote an answer to your question.'
         user = instance.parent.author
         url = '/question/%s/' % instance.parent.id
-
-        # try:
-        #     obj = NotificationObject.objects.get(user=user, action=action, url=url)
-        # except:
-        #     obj = NotificationObject.objects.create(user=user, action=action, url=url, primary_actor=actor.username, is_read=False)
 
         obj, created = NotificationObject.objects.update_or_create(user=user, action=action, url=url, defaults={
             "primary_actor": actor.username,
@@ -186,6 +179,7 @@ def answer_written_notification_to_questioner(instance, created, **kwargs):
 
         NotificationObjectActor.objects.create(obj=obj, actor=actor)
 
+# this function is need for the above function to work
 @receiver(pre_save, sender=NotificationObjectActor)
 def increase_actor_count_in_notification_object(sender, instance, **kwargs):
     already_present = sender.objects.filter(obj=instance.obj, actor=instance.actor)

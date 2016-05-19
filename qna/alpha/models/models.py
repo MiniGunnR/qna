@@ -165,8 +165,12 @@ class NotificationObject(TimeStamped):
     url = models.URLField()
     is_read = models.BooleanField(default=False)
 
-    class Meta:
-        unique_together = ('user', 'action', 'url')
+    def extra_actor_count(self):
+        return self.actor_count - 1
+
+    # have to get rid of it due to is_read logic
+    # class Meta:
+    #     unique_together = ('user', 'action', 'url')
 
     def __unicode__(self):
         return "%s on %s" % (self.action, self.url)
@@ -187,3 +191,4 @@ class QuestionFollowers(QuestionPoint):
 
     def __unicode__(self):
         return "%s following %s" % (self.user, self.question)
+
