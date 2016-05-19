@@ -1,9 +1,9 @@
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save, post_delete, pre_save
 from django.dispatch import receiver
 
 from ..models.models import Question, Answer, QuestionComment, AnswerComment, QuestionHeart, QuestionFlag, \
     AnswerHeart, AnswerFlag, QuestionCommentHeart, QuestionCommentFlag, AnswerCommentHeart, AnswerCommentFlag, \
-    Notification
+    NotificationObject, NotificationObjectActor
 
 
 # # # ADD AND REMOVE QUESTION COUNT IN THE CATEGORY MODEL # # #
@@ -163,15 +163,36 @@ def rem_ans_comment_flag_count_from_answer_comment(instance, **kwargs):
     instance.comment.save()
 # # # --------------------------------------------------- # # #
 
+# this has to be atomic transaction
 @receiver(post_save, sender=Answer)
 def answer_written_notification_to_questioner(instance, created, **kwargs):
     if created:
         actor = instance.author
         # action = 'wrote an answer to <a href="/question/' + str(instance.parent.id) +  '/">your question</a>.'
-        action = 'A'
+        # action = 'A'
+        action = 'wrote an answer to your question.'
         user = instance.parent.author
         url = '/question/%s/' % instance.parent.id
-        Notification.objects.create(actor=actor, action=action, user=user, url=url)
+
+        # try:
+        #     obj = NotificationObject.objects.get(user=user, action=action, url=url)
+        # except:
+        #     obj = NotificationObject.objects.create(user=user, action=action, url=url, primary_actor=actor.username, is_read=False)
+
+        obj, created = NotificationObject.objects.update_or_create(user=user, action=action, url=url, defaults={
+            "primary_actor": actor.username,
+            "is_read": False,
+        })
+
+        NotificationObjectActor.objects.create(obj=obj, actor=actor)
+
+@receiver(pre_save, sender=NotificationObjectActor)
+def increase_actor_count_in_notification_object(sender, instance, **kwargs):
+    already_present = sender.objects.filter(obj=instance.obj, actor=instance.actor)
+    if not already_present:
+        instance.obj.actor_count += 1
+        instance.obj.save()
+
 
 @receiver(post_save, sender=QuestionComment)
 def comment_written_notification_to_questioner(instance, created, **kwargs):

@@ -6,7 +6,7 @@
     <ul style="list-style-type: none;">
     {% for item in noti %}
         <li>
-            <a href="{{ item.url }}">{{ item.actor }} {{ item.get_action_display }}</a>
+            <a href="{{ item.url }}">{{ item.primary_actor }} {{ item.extra_actors }} {{ item.action }}</a>
         </li>
         {% endfor %}
     </ul>

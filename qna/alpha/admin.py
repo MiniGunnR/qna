@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from models.models import Question, Answer, QuestionComment, AnswerComment, Category, \
     QuestionHeart, QuestionFlag, AnswerHeart, AnswerFlag, QuestionCommentHeart, QuestionCommentFlag, AnswerCommentHeart, \
-    AnswerCommentFlag, Notification, QuestionFollowers
+    AnswerCommentFlag, QuestionFollowers, NotificationObject, NotificationObjectActor
 
 
 admin.site.register(Category)
@@ -31,5 +31,6 @@ admin.site.register(QuestionCommentHeart)
 admin.site.register(QuestionCommentFlag)
 admin.site.register(AnswerCommentHeart)
 admin.site.register(AnswerCommentFlag)
-admin.site.register(Notification)
+admin.site.register(NotificationObject)
+admin.site.register(NotificationObjectActor)
 admin.site.register(QuestionFollowers)

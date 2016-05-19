@@ -119,37 +119,65 @@ class AnswerCommentFlag(AnswerCommentPoint):
         return "%s - %s" % (self.user, self.comment)
 
 
+# class NotificationObject(TimeStamped):
+#     action_choices = (
+#         ('A', 'wrote an answer to your question.'),
+#         ('QC', 'commented on your question.'),
+#         ('AC', 'commented on your answer.'),
+#         ('QH', 'liked your answer.'),
+#         ('AH', 'liked your answer.'),
+#     )
+#     action = models.CharField(max_length=2,
+#                               choices=action_choices,
+#                               default='A')
+#     url = models.CharField(max_length=200, default='')
+#
+#     class Meta:
+#         unique_together = ('action', 'url')
+#
+#
+# class NotificationDetail(TimeStamped):
+#     obj = models.ForeignKey('NotificationObject')
+#     actor = models.ForeignKey(User)
+#     isRead = models.BooleanField(default=False)
+#     user = models.ForeignKey(User, related_name='my_notifications')
+#
+#     def __unicode__(self):
+#         return "%s %s -> %s" % (self.actor, self.obj.get_action_display(), self.user)
+#
+#
+# class Notification(TimeStamped):
+#     # noti_detail = models.ForeignKey('NotificationDetail')
+#     user = models.ForeignKey(User)
+#     primary_actor = models.CharField(max_length=50, default='')
+#     extra_actors = models.CharField(max_length=50, default='') # follow values for this field with a space
+#     action = models.CharField(max_length=200)
+#     isRead = models.BooleanField(default=False)
+#
+#     def __unicode__(self):
+#         return "%s %s%s" % (self.primary_actor, self.extra_actors, self.action)
+
 class NotificationObject(TimeStamped):
-    action_choices = (
-        ('A', 'wrote an answer to your question.'),
-        ('QC', 'commented on your question.'),
-        ('AC', 'commented on your answer.'),
-        ('QH', 'liked your answer.'),
-        ('AH', 'liked your answer.'),
-    )
-    action = models.CharField(max_length=2,
-                              choices=action_choices,
-                              default='A')
-    url = models.CharField(max_length=200, default='')
+    user = models.ForeignKey(User)
+    primary_actor = models.CharField(max_length=50, default='Someone')
+    actor_count = models.PositiveIntegerField(default=0)
+    action = models.CharField(max_length=200, default='wrote an answer to your question.')
+    url = models.URLField()
+    is_read = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('user', 'action', 'url')
+
+    def __unicode__(self):
+        return "%s on %s" % (self.action, self.url)
 
 
-class NotificationDetail(TimeStamped):
+class NotificationObjectActor(TimeStamped):
     obj = models.ForeignKey('NotificationObject')
     actor = models.ForeignKey(User)
-    isRead = models.BooleanField(default=False)
-    user = models.ForeignKey(User, related_name='my_notifications')
 
     def __unicode__(self):
-        return "%s %s -> %s" % (self.actor, self.get_action_display(), self.user)
-
-
-class Notification(TimeStamped):
-    primary_actor = models.CharField(max_length=50)
-    extra_actors = models.CharField(max_length=50, default='') # follow values for this field with a space
-    action = models.CharField(max_length=200)
-
-    def __unicode__(self):
-        return "%s %s%s" % self.primary_actor, self.extra_actors, self.action
+        return "%s" % self.actor
 
 
 class QuestionFollowers(QuestionPoint):
