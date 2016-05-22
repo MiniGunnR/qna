@@ -1,4 +1,5 @@
 from django.db.models.signals import post_save, post_delete, pre_save
+from django.core.signals import request_finished
 from django.dispatch import receiver
 
 from ..models.models import Question, Answer, QuestionComment, AnswerComment, QuestionHeart, QuestionFlag, \
@@ -221,23 +222,21 @@ def question_heart_notification_to_questioner(instance, created, **kwargs):
         actor = instance.user
         action = 'hearted your question.'
         user = instance.question.author
-        url = '/question/%s/' % instance.id
+        url = '/question/%s/' % instance.question.id
 
         obj, created = NotificationObject.objects.update_or_create(user=user, action=action, url=url, is_read=False, defaults={
             "primary_actor": actor.username,
         })
 
         NotificationObjectActor.objects.create(obj=obj, actor=actor)
-
-# Make a handler for deleting notification when user unhearts question
 
 @receiver(post_save, sender=AnswerHeart)
 def answer_heart_notification_to_answerer(instance, created, **kwargs):
     if created:
         actor = instance.user
-        action = 'hearted <a href="/question/' + str(instance.answer.parent.id) +  '/">your answer</a>.'
+        action = 'hearted your answer.'
         user = instance.answer.parent.author
-        url = '/answer/%s/' % instance.id
+        url = '/answer/%s/' % instance.answer.id
 
         obj, created = NotificationObject.objects.update_or_create(user=user, action=action, url=url, is_read=False, defaults={
             "primary_actor": actor.username,
@@ -245,5 +244,4 @@ def answer_heart_notification_to_answerer(instance, created, **kwargs):
 
         NotificationObjectActor.objects.create(obj=obj, actor=actor)
 
-# Make a handler for deleting notification when user unhearts answer
-
+# Try to write a request_finished signal handler to make notifications read

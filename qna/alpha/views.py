@@ -18,7 +18,7 @@ from django.views.generic.edit import CreateView
 
 from .models.models import Question, QuestionFlag, QuestionHeart, QuestionCommentHeart, QuestionCommentFlag,\
     Answer, AnswerFlag, AnswerHeart, AnswerCommentHeart, AnswerCommentFlag, QuestionComment, AnswerComment, \
-    QuestionFollowers, NotificationObject, NotificationObjectActor
+    QuestionFollowers, NotificationObject, NotificationObjectActor, Category
 
 from .serializers import QuestionCommentSerializer, AnswerCommentSerializer, AnswerSerializer, QuestionSerializer
 
@@ -170,10 +170,17 @@ class AnswerDetail(DetailView):
     model = Answer
     template_name = 'alpha/answer-detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(AnswerDetail, self).get_context_data(**kwargs)
+        question = self.object.parent
+        context['question_id'] = question.id
+        context['extra_answers'] = Answer.objects.filter(parent=question).count() - 1
+        return context
+
 
 class QuestionCreate(CreateView):
     model = Question
-    fields = ['title', 'body', 'category']
+    fields = ['title', 'body']
     template_name = 'alpha/question-create.html'
 
     def get_success_url(self):
@@ -181,6 +188,7 @@ class QuestionCreate(CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        form.instance.category = Category.objects.get(id=1)
         return super(QuestionCreate, self).form_valid(form)
 
     @method_decorator(login_required)
@@ -274,3 +282,7 @@ def QuestionFollowView(request, pk):
         return JsonResponse({"response": "unfollowed"})
     else:
         return JsonResponse({"response": "followed"})
+
+
+def Search(request):
+    return render(request, "alpha/search.html")

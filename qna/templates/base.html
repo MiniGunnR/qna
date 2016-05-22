@@ -25,30 +25,34 @@
     {% block top-bar %}
 
     <div id="top-bar" class="row">
-        <div class="col-xs-3"></div>
+        <div class="col-xs-3 text-left">
+            <ul id="left-menu">
+                <li><a href="{% url 'stream' %}" class="top-bar-link">QNA</a></li>
+            </ul>
+        </div>
         <div class="col-xs-6 text-center" id="top-bar-mid">
             <ul id="mid-menu">
 
-                <li class="hidden-xs">
-                    <a href="{% url 'stream' %}" class="top-bar-link" id="stream-link">STREAM</a>
+                <li>
+                    <a href="{% url 'stream' %}" class="top-bar-link" id="stream-link"><i class="fa fa-feed"></i></a>
                 </li>
-                <li class="hidden-sm hidden-md hidden-lg">
-                    <a href="{% url 'stream' %}" class="top-bar-link" id="stream-link-icon"><i class="fa fa-bars"></i></a>
-                </li>
+{#                <li class="hidden-sm hidden-md hidden-lg">#}
+{#                    <a href="{% url 'stream' %}" class="top-bar-link" id="stream-link-icon"><i class="fa fa-feed"></i></a>#}
+{#                </li>#}
 
-                <li class="hidden-xs">
-                    <a href="{% url 'question-create' %}" class="top-bar-link" id="ask-link">ASK</a>
+                <li>
+                    <a href="{% url 'question-create' %}" class="top-bar-link" id="ask-link"><i class="fa fa-edit"></i></a>
                 </li>
-                <li class="hidden-sm hidden-md hidden-lg">
-                    <a href="{% url 'question-create' %}" class="top-bar-link" id="ask-link-icon"><i class="fa fa-edit"></i></a>
-                </li>
+{#                <li class="hidden-sm hidden-md hidden-lg">#}
+{#                    <a href="{% url 'question-create' %}" class="top-bar-link" id="ask-link-icon"><i class="fa fa-edit"></i></a>#}
+{#                </li>#}
 
-                <li class="hidden-xs">
-                    <a href="#" class="top-bar-link" id="search-link">SEARCH</a>
+                <li>
+                    <a href="{% url 'search' %}" class="top-bar-link" id="search-link"><i class="fa fa-search"></i></a>
                 </li>
-                <li class="hidden-sm hidden-md hidden-lg">
-                    <a href="#" class="top-bar-link" id="search-link-icon"><i class="fa fa-search"></i></a>
-                </li>
+{#                <li class="hidden-sm hidden-md hidden-lg">#}
+{#                    <a href="#" class="top-bar-link" id="search-link-icon"><i class="fa fa-search"></i></a>#}
+{#                </li>#}
 
 {#                <li class="hidden-xs">#}
 {#                    <a href="#" class="top-bar-link" id="messages-link">MESSAGES</a>#}
@@ -57,26 +61,26 @@
 {#                    <a href="#" class="top-bar-link" id="messages-link"><i class="fa fa-comments-o"></i></a>#}
 {#                </li>#}
 
-                <li class="hidden-xs">
-                    <a href="{% url 'notifications' %}" class="top-bar-link" id="notifications-link">NOTIFICATIONS</a>
+                <li>
+                    <a href="{% url 'notifications' %}" class="top-bar-link" id="notifications-link"><i class="fa fa-bell"></i></a>
                 </li>
-                <li class="hidden-sm hidden-md hidden-lg">
-                    <a href="#" class="top-bar-link" id="notifications-link-icon"><i class="fa fa-comments-o"></i></a>
-                </li>
+{#                <li class="hidden-sm hidden-md hidden-lg">#}
+{#                    <a href="{% url 'notifications' %}" class="top-bar-link" id="notifications-link-icon"><i class="fa fa-bell"></i></a>#}
+{#                </li>#}
 
             </ul>
         </div>
         <div class="col-xs-3 text-right">
             <ul id="right-menu">
             {% if user.is_authenticated %}
-                <li class="hidden-xs">
-                    <a href="{% url 'logout' %}" id="logout-link" class="top-bar-link">LOGOUT</a>
+                <li>
+                    <a href="{% url 'logout' %}" id="logout-link" class="top-bar-link"><i class="fa fa-power-off"></i></a>
                 </li>
-                <li class="hidden-sm hidden-md hidden-lg">
-                    <a href="{% url 'logout' %}" id="logout-link-icon" class="top-bar-link">
-                        <span class="fa fa-power-off"></span>
-                    </a>
-                </li>
+{#                <li class="hidden-sm hidden-md hidden-lg">#}
+{#                    <a href="{% url 'logout' %}" id="logout-link-icon" class="top-bar-link">#}
+{#                        <i class="fa fa-power-off"></i>#}
+{#                    </a>#}
+{#                </li>#}
                 {% else %}
                 <li><a href="#" class="top-bar-link">LOGIN</a></li>
                 {% endif %}

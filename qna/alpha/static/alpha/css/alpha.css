@@ -6,6 +6,10 @@
     color: #ADADAD;
 }
 
+.gray:hover {
+    color: #ADADAD;
+}
+
 html, body {
     margin: 30px 0px;
 }
@@ -40,6 +44,7 @@ html, body {
     border-color: coral;
 }
 
+#left-menu,
 #mid-menu,
 #right-menu,
 #right-menu li ul li {
@@ -48,6 +53,7 @@ html, body {
     padding: 0px;
 }
 
+#left-menu > li,
 #mid-menu > li,
 #right-menu > li {
     display: inline;
@@ -105,7 +111,8 @@ html, body {
     color: coral;
 }
 
-#login-btn {
+#login-btn,
+#facebook-btn {
     width: 50%;
 }
 
@@ -143,4 +150,10 @@ html, body {
 .form-control:focus {
     border-color: #428BCA;
     box-shadow:0 0 0px;
+}
+
+#search_input {
+    position:fixed;
+    top: 50%;
+    width: 50%;
 }

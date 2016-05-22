@@ -1,19 +1,23 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <h3>Notifications</h3>
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+{#        <h3>Notifications</h3>#}
 
-    <ul style="list-style-type: none;">
-    {% for item in noti %}
-        <li>
-            {% if item.actor_count == 1 %}
-                <a href="{{ item.url }}">{{ item.primary_actor }} {{ item.action }}</a>
-            {% else %}
-                <a href="{{ item.url }}">{{ item.primary_actor }} and {{ item.extra_actor_count }} other{{ item.extra_actor_count|pluralize }} {{ item.action }}</a>
-            {% endif %}
-        </li>
-        {% endfor %}
-    </ul>
+        <ul style="list-style-type: none;">
+        {% for item in noti %}
+            <li>
+                {% if item.actor_count == 1 %}
+                    <a href="{{ item.url }}" target="_blank">{{ item.primary_actor }} {{ item.action }}</a>
+                {% else %}
+                    <a href="{{ item.url }}" target="_blank">{{ item.primary_actor }} and {{ item.extra_actor_count }} other{{ item.extra_actor_count|pluralize }} {{ item.action }}</a>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-sm-2"></div>
 {% endblock %}
 
 {% block script %}
@@ -23,14 +27,16 @@
 
     $(document).ready(function() {
         $("#notifications-link").css({
-            "border-bottom": "solid",
-            "border-color": "#FF7F50",
-            "color": "#9D9D9D"
+{#            "border-bottom": "solid",#}
+{#            "border-color": "#FF7F50",#}
+{#            "color": "#9D9D9D"#}
+            "color": "#FF7F50",
         });
         $("#notifications-link-icon").css({
-            "border-bottom": "solid",
-            "border-color": "#FF7F50",
-            "color": "#9D9D9D"
+{#            "border-bottom": "solid",#}
+{#            "border-color": "#FF7F50",#}
+{#            "color": "#9D9D9D"#}
+            "color": "#FF7F50",
         });
     });
 

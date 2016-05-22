@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+        <form method="get" action=".">
+            <input type="text" name="search_input" id="search_input" class="form-control" />
+
+{#            <input type="submit" value="Search" id="search_btn" class="btn btn-default"/>#}
+        </form>
+    </div>
+    <div class="col-sm-3"></div>
+{% endblock %}
+
+{% block script %}
+    <script>
+
+    $("#top-bar").css({"border-bottom": "dashed", "border-width": "1px", "border-color": "coral"});
+
+    $(document).ready(function() {
+        $("#search-link").css({
+{#            "border-bottom": "solid",#}
+{#            "border-color": "#FF7F50",#}
+{#            "color": "#9D9D9D"#}
+            "color": "#FF7F50",
+        });
+        $("#search-link-icon").css({
+{#            "border-bottom": "solid",#}
+{#            "border-color": "#FF7F50",#}
+{#            "color": "#9D9D9D"#}
+            "color": "#FF7F50",
+        });
+    });
+
+    </script>
+{% endblock %}

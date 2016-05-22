@@ -1,5 +1,41 @@
-<h5>{{ object.parent.title }}</h5>
-<hr/>
-<p>{{ object.body }}</p>
-<p>Author: {{ object.author }}</p>
-<p>Published: {{ object.created|date }}</p>
+{% extends "base.html" %}
+{% load alpha_extras %}
+
+{% block body %}
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+        <h4>{{ object.parent.title }}</h4>
+        <h4><small class="gray">{{ object.parent.body }}</small></h4>
+        <hr/>
+        <span><a href="#">{{ object.author.get_full_name }}</a></span> <br/>
+        <small><p class="gray">{{ object.created|date }}</p></small>
+        <p style="font-size: 1.3em;">{{ object.body }}</p>
+
+        <div>
+            <ul class="stream-view-option">
+                <li><a href="{% url 'html-ans-comments' object.pk %}" class="ans-comments-show" data-item-id="{{ object.id }}"><span id="ans-{{ object.id }}-comment-count">{{ object.comments }}</span> comment{{ object.comments|pluralize }}</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <ul class="text-right stream-post-option">
+                <li><a href="{% url 'answer-heart' object.pk %}" class="heart"><i class="fa fa-heart-o{% if object.id|check_ans_heart:user %} red{% else %} gray{% endif %}"></i></a> &nbsp;</li>
+                <li><a href="{% url 'html-ans-comment-form' object.pk %}" id="ans-{{ object.pk }}-comment-form" class="comment-form-ans-icon" data-item-id="{{ object.id }}"><i class="fa fa-comment-o gray"></i></a> &nbsp;</li>
+            </ul>
+        </div>
+
+        <div class="spacer"></div>
+
+        <div id="div-for-ans-{{ object.id }}-comments"></div>
+        <div id="div-for-ans-{{ object.id }}-comment-create"></div>
+    <hr/>
+    <a href="{% url 'question-detail' question_id %}">View {{ extra_answers }} more answer{{ extra_answers|pluralize }}</a>
+    </div>
+    <div class="col-sm-3"></div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $("#top-bar").css({"border-bottom": "dashed", "border-width": "1px", "border-color": "coral"});
+    </script>
+{% endblock %}

@@ -43,4 +43,6 @@ urlpatterns = [
     url(r'^notifications/$', views.Notifications, name='notifications'),
 
     url(r'^follow/question/(?P<pk>\d+)/$', views.QuestionFollowView, name='question-follow'),
+
+    url(r'^search/$', views.Search, name='search'),
 ]
