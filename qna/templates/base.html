@@ -27,7 +27,7 @@
     <div id="top-bar" class="row">
         <div class="col-xs-3 text-left">
             <ul id="left-menu">
-                <li><a href="{% url 'stream' %}" class="top-bar-link">QNA</a></li>
+                <li class="divider"><a href="{% url 'stream' %}" class="top-bar-link">QNA</a></li>
             </ul>
         </div>
         <div class="col-xs-6 text-center" id="top-bar-mid">
@@ -40,7 +40,7 @@
 {#                    <a href="{% url 'stream' %}" class="top-bar-link" id="stream-link-icon"><i class="fa fa-feed"></i></a>#}
 {#                </li>#}
 
-                <li>
+                <li class="divider">
                     <a href="{% url 'question-create' %}" class="top-bar-link" id="ask-link"><i class="fa fa-edit"></i></a>
                 </li>
 {#                <li class="hidden-sm hidden-md hidden-lg">#}
@@ -73,7 +73,7 @@
         <div class="col-xs-3 text-right">
             <ul id="right-menu">
             {% if user.is_authenticated %}
-                <li>
+                <li class="divider-alt">
                     <a href="{% url 'logout' %}" id="logout-link" class="top-bar-link"><i class="fa fa-power-off"></i></a>
                 </li>
 {#                <li class="hidden-sm hidden-md hidden-lg">#}

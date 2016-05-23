@@ -38,10 +38,11 @@ html, body {
 }
 
 .top-bar-link:hover {
-    color: #9D9D9D;
+    /*color: #9D9D9D;*/
     text-decoration: none;
-    border-bottom: solid;
-    border-color: coral;
+    /*border-bottom: solid;*/
+    /*border-color: coral;*/
+    color: coral;
 }
 
 #left-menu,
@@ -156,4 +157,12 @@ html, body {
     position:fixed;
     top: 50%;
     width: 50%;
+}
+
+.divider {
+    border-right: dashed; border-width: 1px; border-color: coral;
+}
+
+.divider-alt {
+    border-left: dashed; border-width: 1px; border-color: coral;
 }
